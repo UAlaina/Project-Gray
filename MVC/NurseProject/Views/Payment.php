@@ -1,10 +1,13 @@
-<!DOCTYPE html>
+<?php
+$PATH = $_SERVER['SCRIPT_NAME'];
+?>
+
 <html>
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>HomeCare Service - Healing Hands, Familiar Spaces</title>
-        <link rel="stylesheet" href="styles/paymentstyle.css">
+        <link rel="stylesheet" href="Views/styles/paymentstyle.css">
       </head>
 <body>
   <div class="payment-modal">
