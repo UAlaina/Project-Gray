@@ -1,0 +1,217 @@
+.patient-login-page {
+    background-color: #ffffff;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .patient-login-page .overlap-group-wrapper {
+    background-color: #ffffff;
+    width: 1440px;
+    height: 1024px;
+  }
+  
+  .patient-login-page .overlap-group {
+    position: relative;
+    width: 700px;
+    height: 700px;
+    top: 130px;
+    left: 371px;
+    background-color: #f1f1f1;
+  }
+  
+  .patient-login-page .text-wrapper {
+    position: absolute;
+    top: 362px;
+    left: 483px;
+    font-family: "Inter", Helvetica;
+    font-weight: 400;
+    color: #0c6bf0c4;
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .patient-login-page .div {
+    position: absolute;
+    top: 69px;
+    left: 180px;
+    font-family: var(--title-page-font-family);
+    font-weight: var(--title-page-font-weight);
+    color: #1e1e1e;
+    font-size: var(--title-page-font-size);
+    letter-spacing: var(--title-page-letter-spacing);
+    line-height: var(--title-page-line-height);
+    white-space: nowrap;
+    font-style: var(--title-page-font-style);
+  }
+  
+  .patient-login-page .overlap {
+    position: absolute;
+    width: 85%;
+    height: 58px;
+    top: 181px;
+    left: 47px;
+    background-color: #00000070;
+    border-radius: 10px;
+    border: 1px solid;
+    border-color: #ffd166;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .patient-login-page .email {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    font-family: "Inter", Helvetica;
+    font-weight: 400;
+    color: #ffffff;
+    font-size: 20px;
+    letter-spacing: -0.43px;
+    line-height: 22px;
+    border: none;
+    padding: 0;
+    text-align: center;
+  }
+  
+  .patient-login-page .email::placeholder {
+    color: #ffffff99;
+    text-align: center;
+  }
+
+  #email-width-measure {
+    position: absolute;
+    visibility: hidden;
+    white-space: nowrap;
+    font-family: "Inter", Helvetica;
+    font-size: 20xpx;
+    letter-spacing: -0.43px;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .patient-login-page .password-wrapper {
+    position: absolute;
+    width: 85%;
+    height: 58px;
+    top: 292px;
+    left: 47px;
+    background-color: #00000070;
+    border-radius: 10px;
+    border: 1px solid;
+    border-color: #ffd166;
+    display: flex;
+  }
+  
+  .patient-login-page .password {
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+    font-family: "Inter", Helvetica;
+    font-weight: 400;
+    color: #ffffff;
+    font-size: 20px;
+    letter-spacing: -0.43px;
+    line-height: 22px;
+    border: none;
+    padding: 0;
+    text-align: center;
+  }
+  
+  .patient-login-page .password::placeholder {
+    color: #ffffff99;
+    text-align: center;
+
+  }
+  
+  .patient-login-page .button {
+    all: unset;
+    box-sizing: border-box;
+    display: flex;
+    width: 307px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px;
+    position: absolute;
+    top: 418px;
+    left: 196px;
+    background-color: #3294ff;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid;
+    border-color: #2c2c2c;
+  }
+  
+  .patient-login-page .button-2 {
+    all: unset;
+    box-sizing: border-box;
+    position: relative;
+    width: fit-content;
+    margin-top: -1.00px;
+    font-family: var(--single-line-body-base-font-family);
+    font-weight: var(--single-line-body-base-font-weight);
+    color: #f5f5f5;
+    font-size: var(--single-line-body-base-font-size);
+    letter-spacing: var(--single-line-body-base-letter-spacing);
+    line-height: var(--single-line-body-base-line-height);
+    white-space: nowrap;
+    font-style: var(--single-line-body-base-font-style);
+  }
+  
+  .patient-login-page .text-wrapper-2 {
+    position: absolute;
+    top: 483px;
+    left: 204px;
+    font-family: "Inter", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .patient-login-page .text-wrapper-3 {
+    position: absolute;
+    top: 483px;
+    left: 433px;
+    font-family: "Inter", Helvetica;
+    font-weight: 400;
+    color: #0c6bf0c4;
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .patient-login-page .text-wrapper-4 {
+    position: absolute;
+    top: 533px;
+    left: 368px;
+    font-family: "Inter", Helvetica;
+    font-weight: 400;
+    color: #0c6bf0c4;
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
+  .patient-login-page .text-wrapper-5 {
+    position: absolute;
+    top: 533px;
+    left: 291px;
+    font-family: "Inter", Helvetica;
+    font-weight: 400;
+    color: #000000;
+    font-size: 20px;
+    letter-spacing: 0;
+    line-height: normal;
+    white-space: nowrap;
+  }
+  
