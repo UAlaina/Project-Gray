@@ -25,6 +25,11 @@
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" required>
                 </div>
+
+                <div class="form-group">
+                    <label for="description">Description of how you want the patient to visualize you</label>
+                    <textarea name="description" id="description" rows="6" required></textarea>
+                </div>
                 
                 <div class="form-group">
                     <label for="password">Password</label>
@@ -35,7 +40,7 @@
                     <label for="DOB">Date of Birth</label>
                     <div class="date-input">
                         <input type="date" name="DOB" id="DOB" placeholder="yyyy-mm-dd" required>
-                        <div class="date-icon">📅</div>
+                        <!-- <div class="date-icon">📅</div> -->
                     </div>
                 </div>
                 
@@ -46,6 +51,8 @@
                             <option value="">Select Gender</option>
                             <option value="Male">Male</option>
                             <option value="Female">Female</option>
+                            <option value="non-binary">Non-Binary</option>
+                            <option value="prefer-not-to-say">Prefer not to say</option>
                         </select>
                         <div class="dropdown-arrow">▼</div>
                     </div>
@@ -96,8 +103,10 @@
                             <input type="text" name="cvv" id="cvv" required>
                         </div>
                     </div>
-                    
-                    <button type="submit">Register</button>
+                    <div class="form-actions">
+                        <button type="submit">Register</button>
+                        <p class="nurse-login">Already have an account? <a href="/NurseProject/Views/NurseLogin/nurselogin.php">Login</a></p>
+                    </div>
                 </div>
             </div>
         </form>

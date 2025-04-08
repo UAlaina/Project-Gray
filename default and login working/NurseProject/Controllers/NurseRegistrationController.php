@@ -17,7 +17,7 @@ class NurseRegistrationController extends Controller {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $conn = Model::connect();
 
-            // 1. Create user account
+            //Create user account
             $email = $_POST['email'];
             $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
             $firstName = $_POST['firstName'];
@@ -30,7 +30,7 @@ class NurseRegistrationController extends Controller {
 
             $userId = $conn->insert_id;
 
-            // 2. Add nurse details
+            //Add nurse details
             $DOB = $_POST['DOB'];
             $gender = $_POST['gender'];
             $licenseNumber = $_POST['licenseNumber'];

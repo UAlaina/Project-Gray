@@ -1,17 +1,19 @@
-<?php session_start(); ?>
+<?php
+$PATH = $_SERVER['SCRIPT_NAME'];
+?>
 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Login</title>
-    <link rel="stylesheet" href="/NurseProject/Views/styles/nurselogin.css">
+    <title>Nurse Login</title>
+    <link rel="stylesheet" href="Views/styles/nurselogin.css">
 </head>
 <body>
     <div class="container">
         <div class="login-container">
-            <h1>Patient Login</h1>
-            <form action="NurseLoginController.php" method="POST" id="loginForm">
+            <h1>Nurse Login</h1>
+            <form id="loginForm">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required>
@@ -42,16 +44,9 @@
                 
                 <div class="form-actions">
                     <button type="submit" id="loginBtn">Login</button>
-                    <p class="register-link">Not registered yet? <a href="/NurseProject/Views/PatientRegistration/clientRegistration.php">Register here</a></p>
-                    <p class="nurse-login">Nurse? <a href="/NurseProject/Views/NurseLogin/nurseLogin.php">Login</a></p>
+                    <p class="register-link">Not registered yet? <a href="nurseRegistration.html">Register here</a></p>
                 </div>
             </form>
-
-            <?php if (isset($_SESSION['error'])): ?>
-                <div class="error-message" style="color: red;">
-                    <?php echo $_SESSION['error']; unset($_SESSION['error']); ?>
-                </div>
-            <?php endif; ?>
         </div>
     </div>
     <script src="Views/javascript/nurse-login.js"></script>

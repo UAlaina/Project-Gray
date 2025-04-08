@@ -65,13 +65,13 @@ select {
     padding-right: 30px;
 }
 
-.date-icon {
+/* .date-icon {
     position: absolute;
     top: 50%;
     right: 10px;
     transform: translateY(-50%);
     pointer-events: none;
-}
+} */
 
 .select-wrapper {
     position: relative;
@@ -112,6 +112,35 @@ button[type="submit"] {
 
 button[type="submit"]:hover {
     background-color: #0055aa;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f0f0f0;
+    resize: vertical;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #0066cc;
+}
+
+.form-actions {
+    text-align: center;
+}
+
+.nurse-login {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.nurse-login a {    
+    color: #0066cc;
+    text-decoration: none;
 }
 
 @media (max-width: 600px) {
