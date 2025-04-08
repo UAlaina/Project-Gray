@@ -1,0 +1,15 @@
+:root {
+    --title-page-font-family: "Inter", Helvetica;
+    --title-page-font-weight: 700;
+    --title-page-font-size: 48px;
+    --title-page-letter-spacing: -0.96px;
+    --title-page-line-height: 120.00000762939453%;
+    --title-page-font-style: normal;
+    --single-line-body-base-font-family: "Inter", Helvetica;
+    --single-line-body-base-font-weight: 400;
+    --single-line-body-base-font-size: 16px;
+    --single-line-body-base-letter-spacing: 0px;
+    --single-line-body-base-line-height: 100%;
+    --single-line-body-base-font-style: normal;
+  }
+  
