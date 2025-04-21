@@ -60,7 +60,6 @@ CREATE TABLE `feedback` (
 CREATE TABLE `nurse` (
   `NurseID` int(6) NOT NULL,
   `DOB` date NOT NULL,
-  `gender` enum('Male','Female','Other','') NOT NULL,
   `licenseNumber` varchar(32) NOT NULL,
   `registrationFee` double NOT NULL,
   `schedule` text NOT NULL,
@@ -75,8 +74,8 @@ CREATE TABLE `nurse` (
 -- Dumping data for table `nurse`
 --
 
-INSERT INTO `nurse` (`NurseID`, `DOB`, `gender`, `licenseNumber`, `registrationFee`, `schedule`, `specialitiesGoodAt`, `clientHistory`, `feedbackReceived`, `rating`, `years_experience`) VALUES
-(1, '1985-07-10', 'Male', 'RN123456789', 200, '9:00 AM - 5:00 PM, Monday to Friday', 'Cardiology, Neurology', 'Has worked with over 50 patients in cardiac care.', 'Received positive feedback from patients and peers.', 4.5, 10);
+INSERT INTO `nurse` (`NurseID`, `DOB`, `licenseNumber`, `registrationFee`, `schedule`, `specialitiesGoodAt`, `clientHistory`, `feedbackReceived`, `rating`, `years_experience`) VALUES
+(1, '1985-07-10', 'RN123456789', 200, '9:00 AM - 5:00 PM, Monday to Friday', 'Cardiology, Neurology', 'Has worked with over 50 patients in cardiac care.', 'Received positive feedback from patients and peers.', 4.5, 10);
 
 -- --------------------------------------------------------
 
