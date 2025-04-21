@@ -6,9 +6,9 @@ class Model{
         $user = "root";
         $pass = "";
         $db = "nurserysystem";
-        $host = 3307;
+        
 
-        $conn = new mysqli($server,$user, $pass, $db, $host);
+        $conn = new mysqli($server,$user, $pass, $db);
 
         if($conn->connect_error){
             die("Connection error! I can't deal with anymore<br>" . $conn->connect_error);
