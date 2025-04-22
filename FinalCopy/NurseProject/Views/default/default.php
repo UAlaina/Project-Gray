@@ -12,7 +12,7 @@ $mainContent = isset($featuredContent['mainContent']) ? $featuredContent['mainCo
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HomeCare Service - <?php echo htmlspecialchars($tagline); ?></title>
-  <link rel="stylesheet" href="<?php echo $basePath; ?>../../Views/styles/defaultstyle.css">
+  <link rel="stylesheet" href="/NurseProject/Views/styles/defaultstyle.css">
 </head>
 <body>
   <div class="pattern"></div>
@@ -21,7 +21,7 @@ $mainContent = isset($featuredContent['mainContent']) ? $featuredContent['mainCo
       <div class="logo-placeholder"></div>
       <div class="top-nav">
         <!-- <a href="<?php echo $basePath; ?>/Views/NurseRegistration/nurseRegistration.php">Career</a> -->
-        <a href="<?php echo $basePath; ?>../../Views/NurseRegistration/nurseRegistration.php">Career</a>
+        <a href="<?php echo $basePath; ?>/Views/NurseRegistration/nurseRegistration.php">Career</a>
         <button class="login-btn" onclick="window.location.href='<?php echo $basePath; ?>/Views/PatientLogin/patientlogin.php'">Login</button>
       </div>
     </header>
@@ -29,14 +29,14 @@ $mainContent = isset($featuredContent['mainContent']) ? $featuredContent['mainCo
     <main>
       <section class="hero">
         <div class="logo">
-          <img src="<?php echo $basePath; ?>../../Views/images/logo.png" alt="HomeCare Service Logo" />
+          <img src="/NurseProject/Views/images/logo.png" alt="HomeCare Service Logo" />
         </div>
         <h1><?php echo htmlspecialchars($tagline); ?></h1>
         <?php if (!empty($mainContent)): ?>
           <p class="main-content"><?php echo htmlspecialchars($mainContent); ?></p>
         <?php endif; ?>
-        <!-- <button class="get-started-btn" onclick="window.location.href='<?php echo $basePath; ?>/Views/PatientLogin/patientlogin.php'">Get Started</button> -->
-        <a href="<?php echo dirname($path);?>../../Views/PatientLogin/patientLogin,php"><input type="button" name="" value="Login"/></a>
+        <button class="get-started-btn" onclick="window.location.href='<?php echo $basePath; ?>/Views/PatientLogin/patientlogin.php'">Get Started</button>
+        <!-- <a href="<?php echo dirname($path);?>../../Views/PatientLogin/patientLogin,php"><input type="button" name="" value="Login"/></a> -->
       </section>
       
       <!-- <?php if (!empty($services)): ?>
