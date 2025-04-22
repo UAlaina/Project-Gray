@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Allow direct access to files and assets (like CSS, JS, images)
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Handle MVC URLs
+RewriteRule ^([a-zA-Z]+)/?$ index.php?controller=$1&action=list [L]
+RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/?$ index.php?controller=$1&action=$2 [L]
+RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/([0-9]+)/?$ index.php?controller=$1&action=$2&id=$3 [L]
