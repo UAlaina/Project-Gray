@@ -12,7 +12,7 @@ $mainContent = isset($featuredContent['mainContent']) ? $featuredContent['mainCo
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HomeCare Service - <?php echo htmlspecialchars($tagline); ?></title>
-  <link rel="stylesheet" href="<?php echo $basePath; ?>../../Views/styles/defaultstyle.css">
+  <link rel="stylesheet" href="/NurseProject/Views/styles/defaultstyle.css">
 </head>
 <body>
   <div class="pattern"></div>
