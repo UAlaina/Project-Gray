@@ -1,20 +1,8 @@
-document.getElementById('registrationForm').addEventListener('submit', function(e) {
+document.getElementById('loginForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    const fullName = document.getElementById('fullName').value;
-    const zipCode = document.getElementById('zipCode').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
-    
-    if (!validateName(fullName)) {
-        showError('fullName', 'nameError');
-        return;
-    }
-    
-    if (!validateZipCode(zipCode)) {
-        showError('zipCode', 'zipError');
-        return;
-    }
     
     if (!validateEmail(email)) {
         showError('email', 'emailError');
@@ -26,24 +14,16 @@ document.getElementById('registrationForm').addEventListener('submit', function(
         return;
     }
     
-    alert('Registration successful!');
+    alert('Login successful!');
     
 });
-
-function validateName(name) {
-    return name.trim().length > 1 && /^[a-zA-Z\s]+$/.test(name);
-}
-
-function validateZipCode(zip) {
-    return /^\d{5}(-\d{4})?$/.test(zip);
-}
 
 function validateEmail(email) {
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
 function validatePassword(password) {
-    return password.length >= 8;
+    return password.length > 0;
 }
 
 function showError(inputId, errorId) {
@@ -51,7 +31,7 @@ function showError(inputId, errorId) {
     document.getElementById(errorId).style.display = 'block';
 }
 
-const inputs = document.querySelectorAll('input');
+const inputs = document.querySelectorAll('input[type="email"], input[type="password"]');
 inputs.forEach(input => {
     input.addEventListener('input', function() {
         const id = this.id;
@@ -60,11 +40,7 @@ inputs.forEach(input => {
         
         let isValid = false;
         
-        if (id === 'fullName') {
-            isValid = validateName(value);
-        } else if (id === 'zipCode') {
-            isValid = validateZipCode(value);
-        } else if (id === 'email') {
+        if (id === 'email') {
             isValid = validateEmail(value);
         } else if (id === 'password') {
             isValid = validatePassword(value);

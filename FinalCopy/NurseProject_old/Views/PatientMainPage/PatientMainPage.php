@@ -56,30 +56,5 @@
     <button class="dark-mode">Dark Mode</button>
 
     <script src="../../Views/javascript/PatientMainPage.js"></script>
-
-    <footer>
-      <div class="footer-content">
-        <div class="footer-logo">
-          <!-- <img src="<?php echo $basePath; ?>/Views/images/logo.png" alt="HomeCare Service Logo" /> -->
-        </div>
-        <div class="footer-links">
-          <h3>Quick Links</h3>
-          <ul>
-            <li><a href="<?php echo $basePath; ?>/default">Home</a></li>
-            <li><a href="<?php echo $basePath; ?>/default/services">Services</a></li>
-            <li><a href="<?php echo $basePath; ?>/default/nurses">Our Nurses</a></li>
-            <li><a href="<?php echo $basePath; ?>/Views/php/nurseRegistration.php">Join Our Team</a></li>
-          </ul>
-        </div>
-        <div class="footer-contact">
-          <h3>Contact Us</h3>
-          <p>Email: contact@homecare.com</p>
-          <p>Phone: (123) 456-7890</p>
-        </div>
-      </div>
-      <div class="copyright">
-        <p>&copy; <?php echo date('Y'); ?> HomeCare Service. All rights reserved.</p>
-      </div>
-    </footer>
 </body>
 </html>

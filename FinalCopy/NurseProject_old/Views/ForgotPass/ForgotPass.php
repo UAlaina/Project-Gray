@@ -12,7 +12,7 @@ if (isset($_POST['forgot'])) {
     $email = $_POST['email'];
 
     // Database connection
-    $conn = new mysqli("localhost", "root", "", "nurserysystem");
+    $conn = new mysqli("localhost", "root", "", "nurserysystem", 3307);
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
     }
@@ -67,7 +67,7 @@ if (isset($_POST['forgot'])) {
 <html>
 <head>
     <title>Forgot Password</title>
-    <link rel="stylesheet" href="/NurseProject/Views/styles/ForgotPass.css">
+    <link rel="stylesheet" href="../../Views/styles/ForgotPass.css">
 </head>
 <body>
     <div class="container">

@@ -37,7 +37,7 @@
                         <input type="checkbox" id="rememberMe" name="rememberMe">
                         <label for="rememberMe">Remember me</label>
                     </div>
-                    <a href="../../Views/ForgotPass/ForgotPass.php" class="forgot-password">Forgot Password?</a>
+                    <a href="/NurseProject/Views/ForgotPass/ForgotPass.php" class="forgot-password">Forgot Password?</a>
                 </div>
                 
                 <div class="form-actions">
