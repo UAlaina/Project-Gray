@@ -4,14 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Login</title>
+    <title>Nurse Login</title>
     <link rel="stylesheet" href="../../Views/styles/nurselogin.css">
 </head>
 <body>
     <div class="container">
         <div class="login-container">
-            <h1>Patient Login</h1>
-            <form action="patientLoginController.php" method="POST" id="loginForm">
+            <h1>Nurse Login</h1>
+            <form action="NurseLoginController.php" method="POST" id="loginForm">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required>
@@ -37,13 +37,13 @@
                         <input type="checkbox" id="rememberMe" name="rememberMe">
                         <label for="rememberMe">Remember me</label>
                     </div>
-                    <a href="/NurseProject/Views/ForgotPass/ForgotPass.php" class="forgot-password">Forgot Password?</a>
+                    <a href="../../Views/ForgotPass/ForgotPass.php" class="forgot-password">Forgot Password?</a>
                 </div>
                 
                 <div class="form-actions">
                     <button type="submit" id="loginBtn">Login</button>
-                    <p class="register-link">Not registered yet? <a href="../../Views/PatientRegistration/clientRegistration.php">Register here</a></p>
-                    <p class="nurse-login">Nurse? <a href="../../Views/NurseLogin/nurseLogin.php">Login</a></p>
+                    <p class="nurseRegister-link">Not registered yet? <a href="../../Views/NurseRegistration/nurseRegistration.php">Register here</a></p>
+                    <p class="patient-login">Patient? <a href="../../Views/PatientLogin/patientLogin.php">Login</a></p>
                 </div>
             </form>
 

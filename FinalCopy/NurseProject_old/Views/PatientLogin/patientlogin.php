@@ -1,17 +1,20 @@
-<?php session_start(); ?>
+<?php 
+session_start();
+$projectRoot = '/FinalCopy/NurseProject/';
+?>
 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Patient Login</title>
-    <link rel="stylesheet" href="../../Views/styles/nurselogin.css">
+    <link rel="stylesheet" href="<?php echo $projectRoot; ?>Views/styles/nurselogin.css">
 </head>
 <body>
     <div class="container">
         <div class="login-container">
             <h1>Patient Login</h1>
-            <form action="patientLoginController.php" method="POST" id="loginForm">
+            <form action="<?php echo $projectRoot; ?>Views/PatientLogin/patientLoginController.php" method="POST" id="loginForm">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required>
@@ -37,13 +40,13 @@
                         <input type="checkbox" id="rememberMe" name="rememberMe">
                         <label for="rememberMe">Remember me</label>
                     </div>
-                    <a href="/NurseProject/Views/ForgotPass/ForgotPass.php" class="forgot-password">Forgot Password?</a>
+                    <a href="<?php echo $projectRoot; ?>Views/ForgotPass/ForgotPass.php" class="forgot-password">Forgot Password?</a>
                 </div>
                 
                 <div class="form-actions">
                     <button type="submit" id="loginBtn">Login</button>
-                    <p class="register-link">Not registered yet? <a href="../../Views/PatientRegistration/clientRegistration.php">Register here</a></p>
-                    <p class="nurse-login">Nurse? <a href="../../Views/NurseLogin/nurseLogin.php">Login</a></p>
+                    <p class="register-link">Not registered yet? <a href="<?php echo $projectRoot; ?>Views/PatientRegistration/clientRegistration.php">Register here</a></p>
+                    <p class="nurse-login">Nurse? <a href="<?php echo $projectRoot; ?>Views/NurseLogin/nurseLogin.php">Login</a></p>
                 </div>
             </form>
 
@@ -54,6 +57,6 @@
             <?php endif; ?>
         </div>
     </div>
-    <script src="../../Views/javascript/nurse-login.js"></script>
+    <script src="<?php echo $projectRoot; ?>Views/javascript/nurse-login.js"></script>
 </body>
 </html>
