@@ -1,17 +1,15 @@
-<?php session_start(); ?>
-
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Nurse Login</title>
-    <link rel="stylesheet" href="../../Views/styles/nurselogin.css">
+    <link rel="stylesheet" href="/NurseProject/Views/styles/nurselogin.css">
 </head>
 <body>
     <div class="container">
         <div class="login-container">
             <h1>Nurse Login</h1>
-            <form action="NurseLoginController.php" method="POST" id="loginForm">
+            <form action="/NurseProject/index.php?controller=nurse&action=login" method="POST">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required>

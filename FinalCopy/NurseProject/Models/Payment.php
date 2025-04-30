@@ -37,17 +37,31 @@ class Payment{
     }
 
     private function setProperties($param) {
-        $this->paymentID = $param->paymentID;
-        $this->patientID = $param->patientID;
-        $this->transactionID = $param->transactionID;
-        $this->serviceCode = $param->serviceCode;
-        $this->amount = $param->amount;
-        $this->timeStamp = $param->timeStamp;
-        $this->paymentStatus = $param->paymentStatus;
-        $this->paymentMethod = $param->paymentMethod;
-        $this->processorID = $param->processorID;
-        $this->stripeID = $param->stripeID;
-        $this->paypalID = $param->paypalID;
+        if (is_object($param)) {
+            $this->paymentID = $param->paymentID;
+            $this->patientID = $param->patientID;
+            $this->transactionID = $param->transactionID;
+            $this->serviceCode = $param->serviceCode;
+            $this->amount = $param->amount;
+            $this->timeStamp = $param->timeStamp;
+            $this->paymentStatus = $param->paymentStatus;
+            $this->paymentMethod = $param->paymentMethod;
+            $this->processorID = $param->processorID;
+            $this->stripeID = $param->stripeID;
+            $this->paypalID = $param->paypalID;
+        } elseif(is_array($param)) {
+            $this->paymentID = $param['paymentID'];
+            $this->patientID = $param['patientID'];
+            $this->transactionID = $param['transactionID'];
+            $this->serviceCode = $param['serviceCode'];
+            $this->amount = $param['amount'];
+            $this->timeStamp = $param['timeStamp'];
+            $this->paymentStatus = $param['paymentStatus'];
+            $this->paymentMethod = $param['paymentMethod'];
+            $this->processorID = $param['processorID'];
+            $this->stripeID = $param['stripeID'];
+            $this->paypalID = $param['paypalID'];
+        }
         
     }
 

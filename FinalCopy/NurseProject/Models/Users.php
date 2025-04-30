@@ -1,5 +1,5 @@
 <?php
-include_once "Models/Model.php";
+include_once __DIR__ . "/Model.php";
 
 class Users {
     public $id;
@@ -19,7 +19,7 @@ class Users {
         elseif (is_int($param)) {
             $conn = Model::connect();
   
-            $sql = "SELECT * FROM `users";
+            $sql = "SELECT * FROM `users`";
             $stmt = $conn->prepare($sql);
   
             $stmt->bind_param("i",$param);
@@ -34,13 +34,23 @@ class Users {
     }
   
     private function setProperties($param) {
-        $this->id = $param->id;
-        $this->email = $param->email;
-        $this->password = $param->password;
-        $this->lastName = $param->lastName;
-        $this->zipCode = $param->zipCode;
-        $this->createdAt = $param->createdAt;
-        $this->updateAt = $param->updateAt; 
+        if(is_object($param)) {
+            $this->id = $param->id;
+            $this->email = $param->email;
+            $this->password = $param->password;
+            $this->lastName = $param->lastName;
+            $this->zipCode = $param->zipCode;
+            $this->createdAt = $param->createdAt;
+            $this->updateAt = $param->updateAt; 
+        } elseif (is_array($param)) {
+            $this->id = $param['id'];
+            $this->email = $param['email'];
+            $this->password = $param['password'];
+            $this->lastName = $param['lastName'];
+            $this->zipCode = $param['zipCode'];
+            $this->createdAt = $param['createdAt'];
+            $this->updateAt = $param['updateAt']; 
+        }
     }
 
     public static function authenticate($email, $password) {
@@ -56,7 +66,7 @@ class Users {
                 $user = new Users();
                 $user->id = $row->id;
                 $user->email = $row->email;
-                $user->role = $row->role;
+               // $user->role = $row->role;
                 return $user;
             }
         }

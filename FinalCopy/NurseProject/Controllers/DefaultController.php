@@ -4,6 +4,11 @@ include_once "Controllers/Controller.php";
 include_once "Models/DefaultModel.php";
 
 class DefaultController extends Controller {
+    private $model;
+    function __construct()
+    {
+        $this->model = new DefaultModel();
+    }
     
     function route() {
         $path = $_SERVER['SCRIPT_NAME'];
@@ -40,11 +45,9 @@ class DefaultController extends Controller {
             $this->index();
         }
     }
-    function index() {
-        $model = new DefaultModel();
-        
-        $featuredContent = $model->getFeaturedContent();
-        $services = $model->getServices();
+    function index() {    
+        $featuredContent = $this->model->getFeaturedContent();
+        $services = $this->model->getServices();
         
         $this->render('default', 'default', [
             'featuredContent' => $featuredContent,
@@ -53,8 +56,7 @@ class DefaultController extends Controller {
     }
     
     private function showNurses() {
-        $model = new DefaultModel();
-        $nurses = $model->getNurses();
+        $nurses = $this->model->getNurses();
         
         $this->render('default', 'nurses', [
             'nurses' => $nurses
@@ -62,8 +64,7 @@ class DefaultController extends Controller {
     }
     
     private function showServices() {
-        $model = new DefaultModel();
-        $services = $model->getServices();
+        $services = $this->model->getServices();
         
         $this->render('default', 'services', [
             'services' => $services
@@ -71,17 +72,15 @@ class DefaultController extends Controller {
     }
     
     private function viewDetails($id) {
-        $model = new DefaultModel();
-        
-        $user = $model->getUserById($id);
+        $user = $this->model->getUserById($id);
         
         if(!$user) {
             header("Location: index.php");
             exit;
         }
         
-        $nurseData = $model->getNurseById($id);
-        $patientData = $model->getPatientById($id);
+        $nurseData = $this->model->getNurseById($id);
+        $patientData = $this->model->getPatientById($id);
         
         if($nurseData) {
             $this->render('default', 'nurseDetails', [
@@ -110,8 +109,7 @@ class DefaultController extends Controller {
     }
     
     private function updateRecord($id) {
-        $model = new DefaultModel();
-        $user = $model->getUserById($id);
+        $user = $this->model->getUserById($id);
         
         if(!$user) {
             header("Location: index.php");
@@ -128,14 +126,12 @@ class DefaultController extends Controller {
         }
     }
     
-    private function deleteRecord($id) {
-        $model = new DefaultModel();
-        
+    private function deleteRecord($id) {        
         if($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: index.php?controller=default&action=list");
             exit;
         } else {
-            $user = $model->getUserById($id);
+            $user = $this->model->getUserById($id);
             
             if(!$user) {
                 header("Location: index.php");

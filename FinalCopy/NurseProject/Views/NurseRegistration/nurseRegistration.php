@@ -9,7 +9,7 @@
 <body>
     <div class="form-container">
         <h2>Create an Account</h2>
-        <form method="POST" action="index.php?controller=nurseRegistration&action=registerNurse">
+        <form method="POST" action="../../index.php?controller=nurse&action=register">
             <div class="form-section">
                 <div class="form-group">
                     <label for="firstName">First Name</label>

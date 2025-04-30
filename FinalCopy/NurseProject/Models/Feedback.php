@@ -34,12 +34,21 @@
         }
     
         private function setProperties($param) {
-            $this->feedbackId = $param->feedbackId;
-            $this->clientId = $param->clientId;
-            $this->nurseId = $param->nurseId;
-            $this->rating = $param->rating;
-            $this->description = $param->description;
-            $this->createdAt = $param->createdAt;
+            if (is_object($param)){
+                $this->feedbackId = $param->feedbackId;
+                $this->clientId = $param->clientId;
+                $this->nurseId = $param->nurseId;
+                $this->rating = $param->rating;
+                $this->description = $param->description;
+                $this->createdAt = $param->createdAt;
+            } elseif (is_array($param)) {
+                $this->feedbackId = $param['feedbackId'];
+                $this->clientId = $param['clientId'];
+                $this->nurseId = $param['nurseId'];
+                $this->rating = $param['rating'];
+                $this->description = $param['description'];
+                $this->createdAt = $param['createdAt'];
+            }
         }
 
         public static function list(){

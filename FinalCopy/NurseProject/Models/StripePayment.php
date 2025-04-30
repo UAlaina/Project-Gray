@@ -31,11 +31,19 @@ class StripePayment {
     }
   
     private function setProperties($param) {
-        $this->stripeID = $param->stripeID;
-        $this->transactionID = $param->transactionID;
-        $this->paymentID = $param->paymentID;
-        $this->apiKey = $param->apiKey;
-        $this->status = $param->status; 
+        if(is_object($param)) {
+            $this->stripeID = $param->stripeID;
+            $this->transactionID = $param->transactionID;
+            $this->paymentID = $param->paymentID;
+            $this->apiKey = $param->apiKey;
+            $this->status = $param->status;
+        } elseif(is_array($param)) {
+            $this->stripeID = $param['stripeID'];
+            $this->transactionID = $param['transactionID'];
+            $this->paymentID = $param['paymentID'];
+            $this->apiKey = $param['apiKey'];
+            $this->status = $param['status'];
+        }
     }
   
     public static function list(){

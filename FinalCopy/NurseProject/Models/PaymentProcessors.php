@@ -30,10 +30,18 @@
         }
     
         private function setProperties($param) {
-            $this->processorID = $param->processorID;
-            $this->processorName = $param->processorName;
-            $this->apiKey = $param->apiKey;
-            $this->patientID = $param->patientID; 
+            if(is_object($param)) {
+                $this->processorID = $param->processorID;
+                $this->processorName = $param->processorName;
+                $this->apiKey = $param->apiKey;
+                $this->patientID = $param->patientID; 
+            } elseif(is_array($param)) {
+                $this->processorID = $param['processorID'];
+                $this->processorName = $param['processorName'];
+                $this->apiKey = $param['apiKey'];
+                $this->patientID = $param['patientID']; 
+            }
+            
         }
     
         public static function list(){

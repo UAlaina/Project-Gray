@@ -31,11 +31,19 @@ class Chat {
     }
 
     private function setProperties($param) {
-        $this->chatRoomId = $param->chatRoomId;
-        $this->clientId = $param->clientId;
-        $this->createAt = $param->createAt;
-        $this->messages = $param->messages;
-        $this->serviceCode = $param->serviceCode;
+        if (is_object($param)) {
+            $this->chatRoomId = $param->chatRoomId;
+            $this->clientId = $param->clientId;
+            $this->createAt = $param->createAt;
+            $this->messages = $param->messages;
+            $this->serviceCode = $param->serviceCode;
+        } elseif(is_array($param)) {
+            $this->chatRoomId = $param['chatRoomId'];
+            $this->clientId = $param['clientId'];
+            $this->createAt = $param['createAt'];
+            $this->messages = $param['messages'];
+            $this->serviceCode = $param['serviceCode'];
+        }
     }
 
     public static function list(){

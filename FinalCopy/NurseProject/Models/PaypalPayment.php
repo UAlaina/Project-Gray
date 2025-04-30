@@ -32,12 +32,22 @@
   }
 
   private function setProperties($param) {
-      $this->paypalID = $param->paypalID;
-      $this->paymentID = $param->paymentID;
-      $this->processorID = $param->processorID;
-      $this->transactionID = $param->transactionID;
-      $this->patientID = $param->patientID;
-      $this->status = $param->status;  
+    if (is_object($param)) {
+        $this->paypalID = $param->paypalID;
+        $this->paymentID = $param->paymentID;
+        $this->processorID = $param->processorID;
+        $this->transactionID = $param->transactionID;
+        $this->patientID = $param->patientID;
+        $this->status = $param->status; 
+    } elseif (is_array($param)) {
+        $this->paypalID = $param['paypalID'];
+        $this->paymentID = $param['paymentID'];
+        $this->processorID = $param['processorID'];
+        $this->transactionID = $param['transactionID'];
+        $this->patientID = $param['patientID'];
+        $this->status = $param['status']; 
+    }
+       
   }
 
   public static function list(){

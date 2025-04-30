@@ -34,14 +34,25 @@ class ServiceForm {
     }
   
     private function setProperties($param) {
-        $this->id = $param->id;
-        $this->chatRoomId = $param->chatRoomId;
-        $this->clientId = $param->clientId;
-        $this->nurseId = $param->nurseId;
-        $this->appointmentTime = $param->appointmentTime;
-        $this->appointmentDate = $param->appointmentDate; 
-        $this->serviceCode = $param->serviceCode;
-        $this->status = $param->status;  
+        if(is_object($param)) {
+            $this->id = $param->id;
+            $this->chatRoomId = $param->chatRoomId;
+            $this->clientId = $param->clientId;
+            $this->nurseId = $param->nurseId;
+            $this->appointmentTime = $param->appointmentTime;
+            $this->appointmentDate = $param->appointmentDate; 
+            $this->serviceCode = $param->serviceCode;
+            $this->status = $param->status; 
+        } elseif(is_array($param)){
+            $this->id = $param['id'];
+            $this->chatRoomId = $param['chatRoomId'];
+            $this->clientId = $param['clientId'];
+            $this->nurseId = $param['nurseId'];
+            $this->appointmentTime = $param['appointmentTime'];
+            $this->appointmentDate = $param['appointmentDate']; 
+            $this->serviceCode = $param['serviceCode'];
+            $this->status = $param['status'];
+        }
     }
   
     public static function list(){
