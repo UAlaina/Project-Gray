@@ -42,7 +42,7 @@
                 <div class="form-actions">
                     <button type="submit" id="loginBtn">Login</button>
                     <p class="register-link">Not registered yet? 
-                        <a href="/NurseProject/Views/PatientRegistration/clientRegistration.php">Register here</a>
+                        <a href="../../Views/PatientRegistration/clientRegistration.php">Register here</a>
                     </p>
                     <p class="nurse-login">Nurse? 
                         <a href="../../Views/NurseLogin/nurseLogin.php">Login</a>

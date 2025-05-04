@@ -16,7 +16,7 @@
         </div>
         
         <nav>
-            <a href="/NurseProject/index.php?controller=chat">Chats</a>
+            <a href="#">Chats</a>
             <a href="../../Views/Payment/Payment.php">Payment</a>
             <div class="profile-icon" id="profileIcon">
                 <img src="../../Views/images/icon.jpg" alt="Profile">

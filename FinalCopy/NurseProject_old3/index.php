@@ -12,4 +12,3 @@ $ct = new $controllerClassName();
 //     $ct->index();
 // }
 $ct->route();
-?>
