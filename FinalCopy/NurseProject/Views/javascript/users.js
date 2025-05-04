@@ -4,45 +4,44 @@ const usersList = document.querySelector(".users-list");
 
 searchBtn.onclick = () => {
     searchBar.classList.toggle("active");
-    searchBar.focus();
     searchBtn.classList.toggle("active");
+    searchBar.focus();
     searchBar.value = "";
-}
+};
 
 searchBar.onkeyup = () => {
     let searchTerm = searchBar.value;
-    if(searchTerm != "") {
+    if (searchTerm != "") {
         searchBar.classList.add("active");
     } else {
         searchBar.classList.remove("active");
     }
     
     let xhr = new XMLHttpRequest();
-    xhr.open("POST", "/NurseProject/index.php?controller=chat&action=search", true);
+    xhr.open("POST", "/NurseProject/index.php?controller=Chat&action=search", true);
     xhr.onload = () => {
-        if(xhr.readyState === XMLHttpRequest.DONE) {
-            if(xhr.status === 200) {
-                let data = xhr.response;
-                usersList.innerHTML = data;
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                usersList.innerHTML = xhr.response;
             }
         }
-    }
+    };
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-    xhr.send("searchTerm=" + searchTerm);
-}
+    xhr.send("searchTerm=" + encodeURIComponent(searchTerm) + "&user_id=" + user_id);
+};
 
 setInterval(() => {
     let xhr = new XMLHttpRequest();
-    xhr.open("GET", "/NurseProject/index.php?controller=chat&action=getUsers", true);
+    xhr.open("POST", "/NurseProject/index.php?controller=Chat&action=getChatRooms", true);
     xhr.onload = () => {
-        if(xhr.readyState === XMLHttpRequest.DONE) {
-            if(xhr.status === 200) {
-                let data = xhr.response;
-                if(!searchBar.classList.contains("active")) {
-                    usersList.innerHTML = data;
+        if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+                if (!searchBar.classList.contains("active")) {
+                    usersList.innerHTML = xhr.response;
                 }
             }
         }
-    }
-    xhr.send();
+    };
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhr.send("user_id=" + user_id);
 }, 500);

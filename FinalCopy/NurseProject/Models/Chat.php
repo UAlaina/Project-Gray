@@ -1,7 +1,8 @@
 <?php
 include_once "Models/Model.php";
+include_once "Models/Users.php";
 
-class Chat {
+class Chat extends Model{
     public $chatRoomId;
     public $clientId;
     public $nurseId;
@@ -65,136 +66,77 @@ class Chat {
         return $list;
     }
     
-    public static function getMessages($incoming_id, $outgoing_id) {
-        $conn = Model::connect();
-        
-        $chatRoom = self::getChatRoomByUsers($incoming_id, $outgoing_id);
-        if (!$chatRoom) {
-            self::createChatRoom($incoming_id, $outgoing_id);
-        }
-        
-        $sql = "SELECT c.*, u.img 
-                FROM `chat` c
-                JOIN `users` u ON u.Id = c.clientId
-                WHERE (c.clientId = ? AND c.nurseId = ?) 
-                OR (c.clientId = ? AND c.nurseId = ?)
-                LIMIT 1";
-                
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iiii", $incoming_id, $outgoing_id, $outgoing_id, $incoming_id);
+    public static function getChatRooms($user_id) {
+        $conn = self::connect();
+        $stmt = $conn->prepare("
+            SELECT c.* 
+            FROM chat c 
+            WHERE c.clientId = ? OR c.nurseId = ?
+        ");
+        $stmt->bind_param("ii", $user_id, $user_id);
         $stmt->execute();
         $result = $stmt->get_result();
-        
-        if ($result->num_rows > 0) {
-            $row = $result->fetch_assoc();
-            $messages = json_decode($row['messages'], true);
-            
-            if (empty($messages)) {
-                return [];
-            }
-            
-            foreach ($messages as &$message) {
-                $message['img'] = $row['img'];
-            }
-            
-            return $messages;
+        $chat_rooms = [];
+        while ($row = $result->fetch_object()) {
+            $chat_rooms[] = $row;
         }
-        
-        return [];
+        return $chat_rooms;
     }
-    
-    public static function insertMessage($incoming_id, $outgoing_id, $message) {
-        $conn = Model::connect();
-        
-        $chatRoom = self::getChatRoomByUsers($incoming_id, $outgoing_id);
-        if (!$chatRoom) {
-            $chatRoomId = self::createChatRoom($incoming_id, $outgoing_id);
-        } else {
-            $chatRoomId = $chatRoom->chatRoomId;
+
+    public static function searchUsers($user_id, $searchTerm) {
+        $conn = self::connect();
+        $searchTerm = "%$searchTerm%";
+        $stmt = $conn->prepare("
+            SELECT * FROM users 
+            WHERE Id != ? AND (firstName LIKE ? OR lastName LIKE ?)
+        ");
+        $stmt->bind_param("iss", $user_id, $searchTerm, $searchTerm);
+        $stmt->execute();
+        $result = $stmt->get_result();
+        $users = [];
+        while ($row = $result->fetch_object()) {
+            $users[] = new Users($row);
         }
-        
-        $sql = "SELECT messages FROM `chat` WHERE chatRoomId = ?";
-        $stmt = $conn->prepare($sql);
+        return $users;
+    }
+
+    public static function getChatRoom($chatRoomId) {
+        $conn = self::connect();
+        $stmt = $conn->prepare("SELECT * FROM chat WHERE chatRoomId = ?");
         $stmt->bind_param("i", $chatRoomId);
         $stmt->execute();
         $result = $stmt->get_result();
-        $row = $result->fetch_assoc();
-        
-        $messages = json_decode($row['messages'], true);
-        if (!is_array($messages)) {
-            $messages = [];
-        }
-        
-        $messages[] = [
-            'incoming_msg_id' => $incoming_id,
-            'outgoing_msg_id' => $outgoing_id,
-            'msg' => $message,
-            'timestamp' => date('Y-m-d H:i:s')
-        ];
-        
-        $messagesJson = json_encode($messages);
-        
-        $sql = "UPDATE `chat` SET messages = ? WHERE chatRoomId = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("si", $messagesJson, $chatRoomId);
-        
-        return $stmt->execute();
+        return $result->fetch_object();
     }
-    
-    public static function getChatRoomByUsers($clientId, $nurseId) {
-        $conn = Model::connect();
-        
-        $sql = "SELECT * FROM `chat` 
-                WHERE (clientId = ? AND nurseId = ?) 
-                OR (clientId = ? AND nurseId = ?)
-                LIMIT 1";
-                
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iiii", $clientId, $nurseId, $nurseId, $clientId);
+
+    public static function getOtherUser($chatRoomId, $user_id) {
+        $conn = self::connect();
+        $stmt = $conn->prepare("
+            SELECT u.* FROM chat c JOIN users u 
+            ON (c.nurseId = u.Id AND c.clientId = ?) OR (c.clientId = u.Id AND c.nurseId = ?)
+            WHERE c.chatRoomId = ?
+        ");
+        $stmt->bind_param("iii", $user_id, $user_id, $chatRoomId);
         $stmt->execute();
         $result = $stmt->get_result();
-        
-        if ($result->num_rows > 0) {
-            return new Chat($result->fetch_object());
-        }
-        
-        return null;
+        $row = $result->fetch_object();
+        return $row ? new Users($row) : null;
     }
-    
-    public static function createChatRoom($clientId, $nurseId, $serviceCode = '') {
-        $conn = Model::connect();
-        $createAt = date('Y-m-d H:i:s');
-        $emptyMessages = json_encode([]);
-        
-        $sql = "INSERT INTO `chat` (clientId, nurseId, createAt, messages, serviceCode) 
-                VALUES (?, ?, ?, ?, ?)";
-                
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("iisss", $clientId, $nurseId, $createAt, $emptyMessages, $serviceCode);
-        
-        if ($stmt->execute()) {
-            return $conn->insert_id;
-        }
-        
-        return false;
-    }
-    
-    public static function getLastMessage($outgoing_id, $user_id) {
-        $conn = Model::connect();
-        
-        $chatRoom = self::getChatRoomByUsers($outgoing_id, $user_id);
-        
-        if (!$chatRoom) {
-            return null;
-        }
-        
-        $messages = json_decode($chatRoom->messages, true);
-        
-        if (empty($messages)) {
-            return null;
-        }
-        
-        return end($messages);
+
+    public static function insertMessage($chatRoomId, $sender_id, $message) {
+        $conn = self::connect();
+        $chat = self::getChatRoom($chatRoomId);
+        $messages = json_decode($chat->messages, true) ?: [];
+        $new_message = [
+            'sender_id' => $sender_id,
+            'message' => $message,
+            'timestamp' => date('Y-m-d H:i:s')
+        ];
+        $messages[] = $new_message;
+        $messages_json = json_encode($messages);
+        $stmt = $conn->prepare("UPDATE chat SET messages = ? WHERE chatRoomId = ?");
+        $stmt->bind_param("si", $messages_json, $chatRoomId);
+        return $stmt->execute();
     }
 }
 ?>
