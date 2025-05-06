@@ -32,9 +32,11 @@ CREATE TABLE `chat` (
   `clientId` int(11) NOT NULL,
   `nurseId` int(11) NOT NULL,
   `createAt` text NOT NULL,
-  `messages` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL DEFAULT '[]' CHECK (json_valid(`messages`)),
+  `incoming_msg_id` int(255) NOT NULL DEFAULT '0',
+  `outgoing_msg_id` int(255) NOT NULL DEFAULT '0',
+  `messages` longtext NOT NULL,
   `serviceCode` text NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci; 
 
 -- --------------------------------------------------------
 
@@ -362,13 +364,16 @@ ALTER TABLE `payment`
 -- Constraints for table `paypalpayment`
 --
 ALTER TABLE `paypalpayment`
-  ADD CONSTRAINT `fk_paypal_paymentID` FOREIGN KEY (`paymentID`) REFERENCES `payment` (`paymentID`);
+  ADD CONSTRAINT `fk_paypal_paymentID` FOREIGN KEY (`paymentID`) REFERENCES `payment` (`paymentID`),
+  ADD CONSTRAINT `fk_paypal_client` FOREIGN KEY (`patientID`) REFERENCES `patients` (`patientID`);
 
 --
 -- Constraints for table `serviceform`
 --
 ALTER TABLE `serviceform`
-  ADD CONSTRAINT `fk_chatRoomId` FOREIGN KEY (`chatRoomId`) REFERENCES `chat` (`chatRoomId`);
+  ADD CONSTRAINT `fk_chatRoomId` FOREIGN KEY (`chatRoomId`) REFERENCES `chat` (`chatRoomId`),
+  ADD CONSTRAINT `fk_service_client` FOREIGN KEY (`clientId`) REFERENCES `patients` (`patientID`),
+  ADD CONSTRAINT `fk_service_nurse` FOREIGN KEY (`nurseId`) REFERENCES `nurse` (`NurseID`);
 
 --
 -- Constraints for table `stripepayment`

@@ -6,7 +6,7 @@ class Model{
         $user = "root";
         $pass = "";
         $db = "nurserysystem";
-        $host = 3307;
+        $host = 3306;
         
 
         $conn = new mysqli($server,$user, $pass, $db, $host);
