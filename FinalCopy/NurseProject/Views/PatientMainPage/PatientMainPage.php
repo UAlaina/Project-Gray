@@ -16,8 +16,8 @@
         </div>
         
         <nav>
-            <a href="#">Chats</a>
-            <a href="../../Views/Payment/Payment.php">Payment</a>
+        <a href="NurseProject/Views/chat/chatRoom.php">Chats</a>
+        <a href="../../Views/Payment/Payment.php">Payment</a>
             <div class="profile-icon" id="profileIcon">
                 <img src="../../Views/images/icon.jpg" alt="Profile">
                 <div class="dropdown-menu" id="dropdownMenu">
