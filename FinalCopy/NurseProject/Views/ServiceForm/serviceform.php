@@ -2,45 +2,42 @@
 $PATH = $_SERVER['SCRIPT_NAME'];
 ?>
 
-<html lan="en">
+<!DOCTYPE html>
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Patient Registration</title>
-    <link rel="stylesheet" href="Views/styles/serviceformstyles.css">
+    <title>Service Form</title>
+    <link rel="stylesheet" href="/NurseProject/Views/styles/serviceformstyles.css">
 </head>
-
 <body>
-    <div class="container">
-        <h1>Service Form</h1>
-        <form id="serviceform">
-            <div class="form-group">
-                <label for="Email">Full Name</label>
-                <input type="text" id="email" name="email" required>
-                <div class="error" id="nameError">Please enter a valid email address (name@example.com)</div>
-            </div>
-            
-            <div class="form-group">
-                <label for="date">Choose a date:</label>
-                <input type="date" id="date" name="date"><br><br>
+<div class="container">
+    <h1>Service Form</h1>
+    <form action="/NurseProject/index.php?action=submitServiceForm" method="POST">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required>
+        </div>
 
-                <label for="time">Choose a time:</label>
-                <input type="time" id="time" name="time"><br><br>
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" required>
+        </div>
 
-                <div class="error" id="timeDatError">please enter the time and date</div>
-            </div>
-            
-            <div class="form-group">
-                <label for="address"><Address></Address></label>
-                <input type="address" id="address" name="address" required>
-                <div class="error" id="addressError">Please enter a valid address</div>
-            </div>
-            
-            <button type="submit">Submit</button>
-        </form>
-    </div>
+        <div class="form-group">
+            <label for="time">Time</label>
+            <input type="time" id="time" name="time" required>
+        </div>
 
-    <script src=""></script>
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" id="address" name="address" required>
+        </div>
+
+        <input type="hidden" name="clientId" value="1">
+        <input type="hidden" name="nurseId" value="10">
+
+        <button type="submit">Submit</button>
+    </form>
+</div>
 </body>
-
 </html>
