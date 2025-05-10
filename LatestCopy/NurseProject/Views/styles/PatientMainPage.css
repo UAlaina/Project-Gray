@@ -1,0 +1,198 @@
+body {
+    font-family: Arial, sans-serif;
+    background: white;
+    margin: 0;
+    padding: 0;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #a3d5ff;
+    padding: 10px 20px;
+    height: 70px;
+    position: relative;
+}
+
+.left-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex: 1;
+}
+
+.logo img {
+    width: 100px;
+    height: auto;
+    display: block;
+    transform: scale(2.5);
+    transform-origin: center;
+}
+
+#search {
+    padding: 10px 15px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+    width: 250px;
+    outline: none;
+    transition: all 0.3s ease;
+}
+
+#search:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.profile-icon img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.profile-icon {
+    position: relative;
+    cursor: pointer;
+    z-index: 10;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 150px;
+    z-index: 100;
+}
+
+.dropdown-menu a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: #333;
+}
+
+.dropdown-menu a:hover {
+    background-color: #f4f4f4;
+}
+
+.profile-icon:focus-within .dropdown-menu,
+.profile-icon:hover .dropdown-menu {
+    display: block;
+}
+
+main {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.container {
+    width: 70%;
+    margin: auto;
+}
+
+.nurse-card {
+    display: flex;
+    align-items: center;
+    background: #e6f2ff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 10px;
+}
+
+.nurse-card:hover {
+    border: 2px solid blue;
+}
+
+.initials {
+    width: 50px;
+    height: 50px;
+    background: #c4a8ff;
+    color: black;
+    font-weight: bold;
+    font-size: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+}
+
+.info {
+    margin-left: 10px;
+    flex: 1;
+}
+
+.name {
+    font-weight: bold;
+}
+
+.details {
+    font-size: 14px;
+}
+
+.dark-mode {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    padding: 10px;
+    cursor: pointer;
+    background: #a3d5ff;
+}
+
+.dark-mode-active {
+    background: black;
+    color: white;
+}
+
+.dark-mode-active .top-bar {
+    background: #003366;
+}
+
+.dark-mode-active .nurse-card {
+    background: #1a1a1a;
+    color: white;
+}
+
+.dark-mode-active .nurse-card:hover {
+    border: 2px solid #0056b3;
+}
+
+.dark-mode-active .dropdown-menu {
+    background: #333;
+    border-color: #444;
+}
+
+.dark-mode-active .dropdown-menu a {
+    color: white;
+}
+
+.dark-mode-active .dropdown-menu a:hover {
+    background: #555;
+}
+
+.dark-mode-active .dark-mode {
+    background: white;
+    color: black;
+    border: 1px solid black;
+}
+
+.dark-mode-active nav a {
+    color: white;
+}
+
+.dark-mode-active nav a:hover {
+    color: #66b3ff; 
+}
+

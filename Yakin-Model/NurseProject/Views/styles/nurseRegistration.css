@@ -1,0 +1,155 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.form-container {
+    background-color: white;
+    max-width: 500px;
+    width: 100%;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 20px;
+    margin: 0;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #0066cc;
+}
+
+.form-section {
+    padding: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+input, select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f0f0f0;
+}
+
+input:focus, select:focus {
+    outline: none;
+    border-color: #0066cc;
+}
+
+select {
+    appearance: none;
+}
+
+.date-input {
+    position: relative;
+}
+
+.date-input input {
+    padding-right: 30px;
+}
+
+/* .date-icon {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+} */
+
+.select-wrapper {
+    position: relative;
+}
+
+.dropdown-arrow {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+}
+
+.card-info {
+    display: flex;
+    gap: 10px;
+}
+
+.card-info > div {
+    flex: 1;
+}
+
+.payment-section {
+    border-top: 1px solid #e0e0e0;  
+}
+
+button[type="submit"] {
+    width: 100%;
+    padding: 12px;
+    background-color: #0066cc;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+    background-color: #0055aa;
+}
+
+textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #aaa;
+    border-radius: 4px;
+    box-sizing: border-box;
+    background-color: #f0f0f0;
+    resize: vertical;
+}
+
+textarea:focus {
+    outline: none;
+    border-color: #0066cc;
+}
+
+.form-actions {
+    text-align: center;
+}
+
+.nurse-login {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.nurse-login a {    
+    color: #0066cc;
+    text-decoration: none;
+}
+
+@media (max-width: 600px) {
+    .card-info {
+        flex-direction: column;
+        gap: 15px;
+    }
+    
+    .form-container {
+        max-width: 100%;
+    }
+}
