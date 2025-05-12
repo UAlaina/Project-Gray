@@ -1,83 +1,75 @@
 <?php
-$PATH = $_SERVER['SCRIPT_NAME'];
+include_once "Models/Feedback.php";
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Profile page of Client</title>
-    <link rel="stylesheet" href="../../Views/styles/profilePage.css">
-    
+    <title>Profile Page of Patient</title>
+    <link rel="stylesheet" href="/NurseProject/Views/styles/profilePagePatient.css">
 </head>
 <body>
-<div class="profile-container">
-    <h4>Profile page of Client</h4>
+    <div class="profile-container">
+        <div class="header">
+            <span class="back-btn" onclick="window.location.href='index.php?controller=nurse&action=mainpage'">←</span>
+            Profile Page of Patient
+        </div>
 
-    <form action="save_profile.php" method="POST">
-        <div class="profile-header">
-            <img src="user-icon.png" alt="User Icon" class="profile-image">
-            <div class="profile-details">
-                <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" name="name" required>
+        <div class="profile-content">
+            <div class="profile-header">
+                <div class="profile-image">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="8" r="4"/>
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                    </svg>
                 </div>
 
-                <div class="form-group">
-                    <label for="gender">Gender</label>
-                    <select name="gender" id="gender" required>
-                        <option value="">Select Gender</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Non-Binary">Non-Binary</option>
-                        <option value="Prefer-not-to-say">Prefer not to say</option>
-                    </select>
+                <div class="profile-details">
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <label>Name</label>
+                            <span><?php echo htmlspecialchars($profileData['firstName'] . ' ' . $profileData['lastName']); ?></span>
+                        </div>
+                        <div class="detail-item">
+                            <label>Gender</label>
+                            <span><?php echo htmlspecialchars($profileData['gender']); ?></span>
+                        </div>
+                    </div>
+
+                    <div class="detail-row">
+                        <div class="detail-item">
+                            <label>Zip Code</label>
+                            <span><?php echo htmlspecialchars($profileData['zipCode']); ?></span>
+                        </div>
+                    </div>
+
+                    <!-- Nurses cannot see patient rating -->
+                </div>
+            </div>
+
+            <div class="description-section">
+                <h3>Problem:</h3>
+                <div class="description-box">
+                    <?php echo htmlspecialchars($profileData['problem'] ?? 'No problem description available.'); ?>
+                </div>
+            </div>
+
+            <!-- Reviews section hidden for nurses -->
+            <!-- <div class="reviews-section"> ... </div> -->
+
+            <div class="actions">
+                <div class="action-row">
+                    Would you like to communicate with this patient?
+                    <button class="btn btn-primary" onclick="location.href='index.php?controller=chat&action=create&patientId=<?php echo $patientId; ?>'">Chat</button>
                 </div>
 
-                <div class="form-group">
-                    <label for="zip">Zip Code</label>
-                    <input type="text" id="zip" name="zip" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="age">Age</label>
-                    <input type="number" id="age" name="age" min="0" required>
-                </div>
-
-                <div class="form-group">
-                    <label for="rating">Rating</label>
-                    <select name="rating" id="rating">
-                        <option value="5">★★★★★ 5 stars</option>
-                        <option value="4">★★★★ 4 stars</option>
-                        <option value="3">★★★ 3 stars</option>
-                        <option value="2">★★ 2 stars</option>
-                        <option value="1">★ 1 star</option>
-                    </select>
+                <div class="action-row">
+                    Would you like to create a service form for this patient?
+                    <button class="btn btn-secondary" onclick="location.href='/NurseProject/Views/ServiceForm/servicePopUp.php'">Service Form</button>
                 </div>
             </div>
         </div>
-
-        <div class="description-section">
-            <h3>Description:</h3>
-            <div class="form-group">
-                <label for="description">Description of their Health issues or what they need help with</label>
-                <textarea name="description" id="description" rows="6" required></textarea>
-            </div>
-        </div>
-
-        <div class="actions">
-            <p>Would you like to book an appointment with them?
-                <button type="button" class="chat-btn">Chat</button>
-            </p>
-            <p>Would you like to give a feedback?
-                <button type="button" class="feedback-btn">Feedback</button>
-            </p>
-        </div>
-
-        <div class="form-actions">
-            <button type="submit">Save Profile</button>
-        </div>
-    </form>
-</div>
+    </div>
 </body>
 </html>

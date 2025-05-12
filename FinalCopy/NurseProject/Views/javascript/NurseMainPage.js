@@ -6,6 +6,28 @@ document.addEventListener("DOMContentLoaded", function () {
     const cards = document.querySelectorAll(".patient-card");
     const noResultsMsg = document.getElementById("noNursesMsg");
     const body = document.body;
+    
+    // Reviews modal elements
+    const reviewsBtn = document.getElementById('reviewsBtn');
+    const reviewsModal = document.getElementById('reviewsModal');
+    const closeBtn = document.querySelector('.close');
+    
+    // Reviews modal functionality
+    if (reviewsBtn && reviewsModal && closeBtn) {
+        reviewsBtn.addEventListener('click', function() {
+            reviewsModal.style.display = 'block';
+        });
+        
+        closeBtn.addEventListener('click', function() {
+            reviewsModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(event) {
+            if (event.target == reviewsModal) {
+                reviewsModal.style.display = 'none';
+            }
+        });
+    }
 
     profileIcon.addEventListener('click', function (event) {
         event.stopPropagation();
@@ -46,5 +68,16 @@ document.addEventListener("DOMContentLoaded", function () {
         if (e.key === "Enter") {
             e.preventDefault();
         }
+    });
+    
+    // Add click event to patient cards
+    const patientCards = document.querySelectorAll(".patient-card");
+    patientCards.forEach(card => {
+        card.addEventListener("click", () => {
+            const name = card.getAttribute("data-name");
+            if (name) {
+                window.location.href = `index.php?controller=nurse&action=viewProfile&name=${name}`;
+            }
+        });
     });
 });

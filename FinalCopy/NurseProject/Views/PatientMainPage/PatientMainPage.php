@@ -2,6 +2,16 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
+echo "<pre>";
+print_r($_SESSION);
+echo "</pre>";
+
+if (!empty($_SESSION['user_id'])) {
+    echo "✅ Session is active for user ID: " . $_SESSION['user_id'];
+} else {
+    echo "❌ No valid session found.";
+}
 ?>
 
 <!DOCTYPE html>
@@ -24,19 +34,19 @@ if (session_status() === PHP_SESSION_NONE) {
         </div>
         <nav>
             <a href="#">Chat</a>
-            <a href="#">Payment</a>
+            <a href="/NurseProject/Views/Payment/Payment.php">Payment</a>
             <div class="profile-icon" id="profileIcon">
                 <img src="/NurseProject/Views/images/icon.jpg" alt="Profile" />
                 <div class="dropdown-menu" id="dropdownMenu">
                     <a href="index.php?controller=patient&action=logout">Log Out</a>
-                    <a href="#">Edit Profile</a>
+                    <a href="index.php?controller=patient&action=editProfile">Edit Profile</a>
                 </div>
             </div>
         </nav>
     </header>
 
     <button class="dark-mode" id="darkModeBtn">Dark Mode</button>
-
+    
     <main>
         <h1>Nurses</h1>
         <div class="container">
@@ -44,9 +54,9 @@ if (session_status() === PHP_SESSION_NONE) {
                 <?php foreach ($nurses as $row): ?>
                     <?php
                         $fullName = strtolower($row->firstName . ' ' . $row->lastName);
-                        $dataName = htmlspecialchars($fullName);
+                        $dataName = urlencode($fullName);
                     ?>
-                    <div class="patient-card" data-name="<?php echo $dataName; ?>">
+                    <div class="nurse-card" data-name="<?php echo $dataName; ?>">
                         <div class="row">
                             <div class="info">
                                 <div class="icon">
@@ -62,9 +72,12 @@ if (session_status() === PHP_SESSION_NONE) {
                                 Zip Code: <?php echo htmlspecialchars($row->zipCode); ?>
                             </div>
                         </div>
-                        <div class="about">About me</div>
+                        <div class="about">
+                            <?php echo "About me: " . (!empty($row->info) ? htmlspecialchars($row->info) : "No info available."); ?>
+                        </div>
                     </div>
                 <?php endforeach; ?>
+
                 <p id="noNursesMsg" style="display:none; text-align:center; color:red;">No nurses found.</p>
             <?php else: ?>
                 <p>No nurses found.</p>
@@ -78,9 +91,6 @@ if (session_status() === PHP_SESSION_NONE) {
                 <h3>Quick Links</h3>
                 <ul>
                     <li><a href="/NurseProject/Views/default/default.php">Home</a></li>
-                    <li><a href="/NurseProject/Views/default/services.php">Services</a></li>
-                    <li><a href="/NurseProject/Views/default/nurses.php">Our Nurses</a></li>
-                    <li><a href="/NurseProject/Views/php/nurseRegistration.php">Join Our Team</a></li>
                 </ul>
             </div>
             <div class="footer-contact">

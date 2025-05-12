@@ -1,7 +1,7 @@
 <?php
 include_once __DIR__ . "/Model.php";
 
-class Users {
+class Users extends Model {
     public $id;
     public $email;
     public $password;
@@ -12,80 +12,65 @@ class Users {
     public $updateAt;
 
     function __construct($param = null) {
-        if (is_object($param)){
+        if (is_object($param) || is_array($param)) {
             $this->setProperties($param);
-        }
-  
-        elseif (is_int($param)) {
-            $conn = Model::connect();
-  
-            $sql = "SELECT * FROM `users`";
-            $stmt = $conn->prepare($sql);
-  
-            $stmt->bind_param("i",$param);
+        } elseif (is_int($param)) {
+            $conn = self::connect();
+            $stmt = $conn->prepare("SELECT * FROM users WHERE id = ?");
+            $stmt->bind_param("i", $param);
             $stmt->execute();
-  
             $result = $stmt->get_result();
             $row = $result->fetch_object();
-  
             $this->setProperties($row);
         }
-       
     }
-  
+
     private function setProperties($param) {
-        if(is_object($param)) {
-            $this->id = $param->id;
+        if (is_object($param)) {
+            $this->id = isset($param->id) ? $param->id : ($param->Id ?? null);
             $this->email = $param->email;
             $this->password = $param->password;
+            $this->firstName = $param->firstName;
             $this->lastName = $param->lastName;
             $this->zipCode = $param->zipCode;
             $this->createdAt = $param->createdAt;
-            $this->updateAt = $param->updateAt; 
+            $this->updateAt = $param->updatedAt;
         } elseif (is_array($param)) {
-            $this->id = $param['id'];
-            $this->email = $param['email'];
-            $this->password = $param['password'];
-            $this->lastName = $param['lastName'];
-            $this->zipCode = $param['zipCode'];
-            $this->createdAt = $param['createdAt'];
-            $this->updateAt = $param['updateAt']; 
+            $this->id = isset($param['id']) ? $param['id'] : ($param['Id'] ?? null);
+            $this->email = htmlspecialchars($param['email']);
+            $this->password = htmlspecialchars($param['password']);
+            $this->firstName = htmlspecialchars($param['firstName']);
+            $this->lastName = htmlspecialchars($param['lastName']);
+            $this->zipCode = htmlspecialchars($param['zipCode']);
+            $this->createdAt = $param['createdAt'] ?? null;
+            $this->updateAt = $param['updatedAt'] ?? null;
         }
     }
 
     public static function authenticate($email, $password) {
-        $conn = Model::connect();
-        $sql = "SELECT * FROM `users` WHERE email = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("s", $email);
+        $conn = self::connect();
+        $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
+        $hashedPassword = sha1($password);
+        $stmt->bind_param("ss", $email, $hashedPassword);
         $stmt->execute();
         $result = $stmt->get_result();
-        
+
         if ($row = $result->fetch_object()) {
-            if (password_verify($password, $row->password)) {
-                $user = new Users();
-                $user->id = $row->id;
-                $user->email = $row->email;
-               // $user->role = $row->role;
-                return $user;
-            }
+            return new Users($row);
         }
+
         return null;
     }
-  
-    public static function list(){
+
+    public static function list() {
+        $conn = self::connect();
+        $result = $conn->query("SELECT * FROM users");
         $list = [];
-        $sql = "SELECT * FROM `users`";
-  
-        $connection = Model::connect();
-        $result = $connection->query($sql);
-  
-        while($row = $result->fetch_object()){
-            $users = new Users($row);
-            array_push($list, $users);
+
+        while ($row = $result->fetch_object()) {
+            $list[] = new Users($row);
         }
-  
+
         return $list;
     }
 }
-?>

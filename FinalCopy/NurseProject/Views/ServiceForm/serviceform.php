@@ -12,7 +12,7 @@ $PATH = $_SERVER['SCRIPT_NAME'];
 <body>
 <div class="container">
     <h1>Service Form</h1>
-    <form action="/NurseProject/index.php?action=submitServiceForm" method="POST">
+        <form action="/NurseProject/index.php?controller=service&action=submitServiceForm" method="POST">
         <div class="form-group">
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required>
@@ -32,9 +32,6 @@ $PATH = $_SERVER['SCRIPT_NAME'];
             <label for="address">Address</label>
             <input type="text" id="address" name="address" required>
         </div>
-
-        <input type="hidden" name="clientId" value="1">
-        <input type="hidden" name="nurseId" value="10">
 
         <button type="submit">Submit</button>
     </form>

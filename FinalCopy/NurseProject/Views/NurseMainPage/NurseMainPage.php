@@ -1,10 +1,44 @@
+<?php
+
+ echo "<pre>";
+ print_r($_SESSION);
+ echo "</pre>";
+
+ if (!empty($_SESSION['user_id'])) {
+     echo "✅ Session is active for user ID: " . $_SESSION['user_id'];
+ } else {
+     echo "❌ No valid session found.";
+ }
+
+function displayStars($rating) {
+    $stars = '';
+    $rating = floatval($rating);
+    
+    $fullStars = floor($rating);
+    for ($i = 1; $i <= $fullStars; $i++) {
+        $stars .= '<span class="star filled">★</span>';
+    }
+    
+    if ($rating - $fullStars >= 0.5) {
+        $stars .= '<span class="star half-filled">★</span>';
+        $i++;
+    }
+    
+    for (; $i <= 5; $i++) {
+        $stars .= '<span class="star">☆</span>';
+    }
+    
+    return $stars . ' <span class="rating-number">' . number_format($rating, 1) . '</span>';
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nurse Main Page</title>
-  <link rel="stylesheet" href="/NurseProject/Views/styles/PatientMainPage.css?v=1">
+  <link rel="stylesheet" href="/NurseProject/Views/styles/NurseMainPage.css?v=1">
 </head>
 <body>
 <div class="page-wrapper">
@@ -17,17 +51,64 @@
     </div>
     <nav>
       <a href="#">Chat</a>
-      <a href="#">Payment</a>
+      <a href="/NurseProject/Views/ServiceForm/servicePopUp.php">Service Form</a>
+      <a href="#" id="reviewsBtn">My Reviews</a>
       <div class="profile-icon" id="profileIcon">
         <img src="/NurseProject/Views/images/icon.jpg" alt="Profile" />
         <div class="dropdown-menu" id="dropdownMenu">
-          <a href="/NurseProject/Views/default/default.php">Log Out</a>
-          <a href="#">Edit Profile</a>
+          <a href="/NurseProject/Views/NurseLogin/nurseLogin.php">Log Out</a>
+          <a href="index.php?controller=nurse&action=editProfile">Edit Profile</a>
         </div>
       </div>
     </nav>
   </header>
   <button class="dark-mode" id="darkModeBtn">Dark Mode</button>
+  
+  <div id="reviewsModal" class="modal">
+    <div class="modal-content">
+      <span class="close">&times;</span>
+      <h2>My Reviews</h2>
+      <div class="reviews-container">
+        <?php 
+        include_once "Models/Feedback.php";
+        $nurseId = $_SESSION['user_id'] ?? 0;
+        $feedbackList = Feedback::getFeedbackByNurseId($nurseId);
+        $averageRating = Feedback::getAverageRatingByNurseId($nurseId);
+        ?>
+        
+        <div class="rating-summary">
+          <h3>Your Average Rating: <?php echo number_format($averageRating, 1); ?></h3>
+          <div class="stars">
+            <?php echo displayStars($averageRating); ?>
+            <span class="review-count">(<?php echo count($feedbackList); ?> reviews)</span>
+          </div>
+        </div>
+        
+        <?php if (count($feedbackList) > 0): ?>
+          <div class="reviews-list">
+            <?php foreach ($feedbackList as $feedback): ?>
+              <div class="review-item">
+                <div class="review-header">
+                  <div class="reviewer-name"><?php echo htmlspecialchars($feedback->clientName); ?></div>
+                  <div class="review-date"><?php echo date('M d, Y', strtotime($feedback->createdAt)); ?></div>
+                </div>
+                <div class="review-stars">
+                  <?php echo displayStars($feedback->rating); ?>
+                </div>
+                <?php if (!empty($feedback->description)): ?>
+                  <div class="review-text">
+                    <?php echo htmlspecialchars($feedback->description); ?>
+                  </div>
+                <?php endif; ?>
+              </div>
+            <?php endforeach; ?>
+          </div>
+        <?php else: ?>
+          <p class="no-reviews">You haven't received any reviews yet.</p>
+        <?php endif; ?>
+      </div>
+    </div>
+  </div>
   <main>
     <h1>Patients</h1>
     <div class="container">
@@ -35,7 +116,7 @@
         <?php foreach ($patients as $row): ?>
           <?php
             $fullName = strtolower(trim($row->firstName . ' ' . $row->lastName));
-            $dataName = htmlspecialchars($fullName);
+            $dataName = urlencode($fullName); 
           ?>
           <div class="patient-card" data-name="<?php echo $dataName; ?>">
             <div class="row">
@@ -68,7 +149,7 @@
           <li><a href="/NurseProject/Views/default/default.php">Home</a></li>
           <li><a href="/NurseProject/Views/default/services.php">Services</a></li>
           <li><a href="/NurseProject/Views/default/nurses.php">Our Nurses</a></li>
-          <li><a href="/NurseProject/Views/php/nurseRegistration.php">Join Our Team</a></li>
+          <li><a href="/NurseProject/Views/NurseRegistration/nurseRegistration.php">Join Our Team</a></li>
         </ul>
       </div>
       <div class="footer-contact">

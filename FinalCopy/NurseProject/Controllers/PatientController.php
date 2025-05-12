@@ -39,8 +39,18 @@ class PatientController extends Controller {
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $success = Patients::register($_POST);
                     if ($success) {
-                        header("Location: index.php?controller=patient&action=login");
-                        exit();
+                        $user = Users::authenticate($_POST['email'], $_POST['password']);
+                        if ($user) {
+                            $_SESSION['user_id'] = $user->id;
+                            $_SESSION['user_email'] = $user->email;
+                            $_SESSION['user_type'] = 'patient';
+                            $_SESSION['token'] = "PATIENT_" . $user->id;
+                            session_write_close();
+                            header("Location: index.php?controller=patient&action=mainpage");
+                            exit();
+                        } else {
+                            echo "Registration succeeded but login failed.";
+                        }
                     } else {
                         echo "Registration failed. Try again.";
                     }
@@ -58,6 +68,9 @@ class PatientController extends Controller {
                     if ($user) {
                         $_SESSION['user_id'] = $user->id;
                         $_SESSION['user_email'] = $user->email;
+                        $_SESSION['user_type'] = 'patient';
+                        $_SESSION['token'] = "PATIENT_" . $user->id;
+                        session_write_close();
                         header("Location: index.php?controller=patient&action=mainpage");
                         exit();
                     } else {
@@ -67,6 +80,28 @@ class PatientController extends Controller {
                     }
                 } else {
                     $this->render("PatientLogin", "patientlogin", []);
+                }
+                break;
+            
+            case "viewProfile":
+                $name = isset($_GET['name']) ? $_GET['name'] : null;
+                $id = isset($_GET['id']) ? intval($_GET['id']) : null;
+                
+                if ($name) {
+                    $profileData = Patients::getNurseByName($name);
+                } else if ($id) {
+                    $profileData = Patients::getNurseById($id);
+                } else if (isset($profile)) {
+                    $profileData = Patients::formatProfileData($profile);
+                } else {
+                    $profileData = null;
+                }
+                
+                if ($profileData) {
+                    $this->render("ProfilePage", "profilePagePatient", ["profileData" => $profileData]);
+                } else {
+                    header("Location: index.php?controller=patient&action=mainpage");
+                    exit();
                 }
                 break;
 
@@ -79,6 +114,69 @@ class PatientController extends Controller {
                 session_destroy();
                 header("Location: index.php?controller=patient&action=login");
                 exit();
+
+            case "editProfile":
+                $patientData = Patients::getPatientDataByUserId($_SESSION['user_id']);
+                
+                if ($patientData) {
+                    $_SESSION['patient_data'] = $patientData;
+                    
+                    //error_log("Patient data loaded: " . print_r($patientData, true));
+                    
+                    $this->render("PatientProfile", "editProfile", []);
+                } else {
+                    $_SESSION['error_message'] = "Failed to load profile data.";
+                    header("Location: index.php?controller=patient&action=mainpage");
+                    exit();
+                }
+                break;
+
+            case "updateProfile":
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $_POST['user_id'] = $_SESSION['user_id'];
+                    
+                    if (!empty($_POST['password']) && $_POST['password'] !== $_POST['confirm_password']) {
+                        $_SESSION['error_message'] = "Passwords do not match.";
+                        header("Location: index.php?controller=patient&action=editProfile");
+                        exit();
+                    }
+                    
+                    $success = Patients::updateProfile($_POST);
+                    
+                    if ($success) {
+                        $_SESSION['success_message'] = "Profile updated successfully.";
+                        
+                        $patientData = Patients::getPatientDataByUserId($_SESSION['user_id']);
+                        if ($patientData) {
+                            $_SESSION['patient_data'] = $patientData;
+                        }
+                        
+                        header("Location: index.php?controller=patient&action=editProfile");
+                    } else {
+                        $_SESSION['error_message'] = "Failed to update profile.";
+                        header("Location: index.php?controller=patient&action=editProfile");
+                    }
+                    exit();
+                }
+                break;
+
+            case "deleteProfile":
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $success = Patients::deleteProfile($_SESSION['user_id']);
+                    
+                    if ($success) {
+                        session_unset();
+                        session_destroy();
+                        
+                        session_start();
+                        $_SESSION['success_message'] = "Your account has been deleted successfully.";
+                        header("Location: /NurseProject/Views/default/default.php");
+                    } else {
+                        $_SESSION['error_message'] = "Failed to delete account.";
+                        header("Location: index.php?controller=patient&action=editProfile");
+                    }
+                    exit();
+                }
                 break;
 
             default:

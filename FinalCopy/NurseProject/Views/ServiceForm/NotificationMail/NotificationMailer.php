@@ -21,38 +21,30 @@ class NotificationMailer {
             $this->mailer->Host = 'smtp.gmail.com';
             $this->mailer->SMTPAuth = true;
             $this->mailer->Username = 'nurserywebsystem@gmail.com';
-            $this->mailer->Password = 'mvnn ifin jblh sfuc';
+            $this->mailer->Password = 'jfxn wtck joja jwqm';
             $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
             $this->mailer->Port = 587;
-
-            $this->mailer->setFrom('nurseryappsystem@gmail.com', 'Nursery App System');
+            $this->mailer->setFrom('nurserywebsystem@gmail.com', 'Nursery App System');
         } catch (Exception $e) {
-            //echo 'Mailer Setup Error: ', $e->errorMessage();
+            echo 'Mailer Setup Error: ', $e->getMessage();
         }
     }
 
     public function sendEmail($recipient, $subject, $body) {
+        echo "Sending to: " . $recipient;
+
         try {
-            //$this->mailer->clearAddresses();
+            $this->mailer->clearAddresses();
             $this->mailer->addAddress($recipient);
             $this->mailer->isHTML(true);
             $this->mailer->Subject = $subject;
             $this->mailer->Body = $body;
 
-            //error_log("Attempting to send email to: $recipient");
-            
-            if ($this->mailer->send()) {
-                //error_log("Email sent successfully to: $recipient");
-                return true;
-            } else {
-                //error_log("Mailer Error: " . $this->mailer->ErrorInfo);
-                return false;
-            }
+            return $this->mailer->send();
         } catch (Exception $e) {
-            //error_log("Mailer Exception: " . $e->getMessage());
+            error_log("Mailer Error: " . $e->getMessage());
             return false;
         }
     }
 }
-
 ?>

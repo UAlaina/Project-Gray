@@ -17,13 +17,11 @@ if (isset($_POST['forgot'])) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Prepare SQL to retrieve the user's password based on the provided email
     $stmt = $conn->prepare("SELECT password FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
 
-    // If email is found in the database, send password recovery email
     if ($stmt->num_rows > 0) {
         $stmt->bind_result($password);
         $stmt->fetch();
@@ -35,13 +33,12 @@ if (isset($_POST['forgot'])) {
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';  
             $mail->SMTPAuth   = true;
-            $mail->Username   = 'nurserywebsystem@gmail.com';  // Use your Gmail address
-            $mail->Password   = 'mvnn ifin jblh sfuc';  // Use the generated app password from Google
-            $mail->SMTPSecure = 'tls';  // Use TLS encryption
+            $mail->Username   = 'nurserywebsystem@gmail.com';  
+            $mail->Password   = 'jfxn wtck joja jwqm';  // Use the generated app password from Google
+            $mail->SMTPSecure = 'tls';  
             $mail->Port       = 587;
 
-            // Sender and recipient details
-            $mail->setFrom('nurseryappsystem@gmail.com', 'Nursery App System');
+            $mail->setFrom('nurserywebsystem@gmail.com', 'Nursery App System');
             $mail->addAddress($email);  // Add the recipient's email address
             $mail->Subject = 'Password Recovery';
             $mail->Body    = "Hello,\n\nYour password is: $password\n\n- Nursery App System";

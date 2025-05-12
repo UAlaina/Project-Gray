@@ -26,8 +26,29 @@ class NurseController extends Controller {
                     $userDetails = Nurse::getUserDetails($id);
                     $this->render($controller, "userDetails", ["userDetails" => $userDetails]);
                 } else {
-                    error_log("❌ Invalid patient ID for view");
                     header("Location: index.php?controller=nurse&action=list");
+                    exit();
+                }
+                break;
+
+            case "viewProfile":
+                $name = isset($_GET['name']) ? $_GET['name'] : null;
+                $id = isset($_GET['id']) ? intval($_GET['id']) : null;
+                
+                if ($name) {
+                    $profileData = Nurse::getPatientByName($name);
+                } else if ($id) {
+                    $profileData = Nurse::getPatientById($id);
+                } else if (isset($profile)) {
+                    $profileData = Nurse::formatProfileData($profile);
+                } else {
+                    $profileData = null;
+                }
+                
+                if ($profileData) {
+                    $this->render("ProfilePage", "profilePageNurse", ["profileData" => $profileData]);
+                } else {
+                    header("Location: index.php?controller=nurse&action=mainpage");
                     exit();
                 }
                 break;
@@ -35,16 +56,20 @@ class NurseController extends Controller {
             case "register":
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $success = Nurse::register($_POST);
-
                     if ($success) {
-                        $_SESSION['success'] = "Nurse registered successfully!";
-                        $_SESSION['user_email'] = $_POST['email'];
-                        $_SESSION['user_type'] = 'nurse';
-                        header("Location: index.php?controller=nurse&action=mainpage");
-                        exit();
+                        $user = Users::authenticate($_POST['email'], $_POST['password']);
+                        if ($user) {
+                            $_SESSION['user_id'] = $user->id;
+                            $_SESSION['user_email'] = $user->email;
+                            $_SESSION['user_type'] = 'nurse';
+                            $_SESSION['token'] = "NURSE_" . $user->id;
+                            header("Location: index.php?controller=nurse&action=mainpage");
+                            exit();
+                        } else {
+                            echo "Registration succeeded but login failed.";
+                        }
                     } else {
-                        header("Location: index.php?controller=nurse&action=register");
-                        exit();
+                        echo "Registration failed. Please try again.";
                     }
                 } else {
                     $this->render("NurseRegistration", "nurseRegistration", []);
@@ -55,13 +80,13 @@ class NurseController extends Controller {
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     $email = trim($_POST['email']);
                     $password = trim($_POST['password']);
-
                     $user = Nurse::authenticate($email, $password);
 
                     if ($user) {
                         $_SESSION['user_id'] = $user->Id;
                         $_SESSION['user_email'] = $user->email;
                         $_SESSION['user_type'] = 'nurse';
+                        $_SESSION['token'] = "NURSE_" . $user->Id;
                         header("Location: index.php?controller=nurse&action=mainpage");
                         exit();
                     } else {
@@ -83,6 +108,90 @@ class NurseController extends Controller {
                 session_destroy();
                 header("Location: index.php?controller=nurse&action=login");
                 exit();
+                break;
+            
+            case "editProfile":
+                if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'nurse') {
+                    header("Location: index.php?controller=nurse&action=login");
+                    exit();
+                }
+                
+                $nurseData = Nurse::getNurseDataByUserId($_SESSION['user_id']);
+                
+                if ($nurseData) {
+                    $_SESSION['nurse_data'] = $nurseData;
+                    
+                    //error_log("Nurse data loaded: " . print_r($nurseData, true));
+                    
+                    $this->render("NurseProfile", "editProfile", []);
+                } else {
+                    $_SESSION['error_message'] = "Failed to load profile data.";
+                    header("Location: index.php?controller=nurse&action=mainpage");
+                    exit();
+                }
+                break;
+
+            case "updateProfile":
+                if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'nurse') {
+                    header("Location: index.php?controller=nurse&action=login");
+                    exit();
+                }
+                            
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $_POST['user_id'] = $_SESSION['user_id'];
+                    
+                    if (!empty($_POST['password']) && $_POST['password'] !== $_POST['confirm_password']) {
+                        $_SESSION['error_message'] = "Passwords do not match.";
+                        header("Location: index.php?controller=nurse&action=editProfile");
+                        exit();
+                    }
+                    
+                    $success = Nurse::updateProfile($_POST);
+                    
+                    if ($success) {
+                        $_SESSION['success_message'] = "Profile updated successfully.";
+                        
+                        $nurseData = Nurse::getNurseDataByUserId($_SESSION['user_id']);
+                        if ($nurseData) {
+                            $_SESSION['nurse_data'] = $nurseData;
+                        }
+                        
+                        header("Location: index.php?controller=nurse&action=editProfile");
+                    } else {
+                        $_SESSION['error_message'] = "Failed to update profile.";
+                        header("Location: index.php?controller=nurse&action=editProfile");
+                    }
+                    exit();
+                } else {
+                    header("Location: index.php?controller=nurse&action=editProfile");
+                    exit();
+                }
+                break;
+            case "deleteProfile":
+                if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'nurse') {
+                    header("Location: index.php?controller=nurse&action=login");
+                    exit();
+                }
+                
+                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                    $success = Nurse::deleteProfile($_SESSION['user_id']);
+                    
+                    if ($success) {
+                        session_unset();
+                        session_destroy();
+                        
+                        session_start();
+                        $_SESSION['success_message'] = "Your account has been deleted successfully.";
+                        header("Location: /NurseProject/Views/default/default.php");
+                    } else {
+                        $_SESSION['error_message'] = "Failed to delete account.";
+                        header("Location: index.php?controller=nurse&action=editProfile");
+                    }
+                    exit();
+                } else {
+                    header("Location: index.php?controller=nurse&action=editProfile");
+                    exit();
+                }
                 break;
 
             default:

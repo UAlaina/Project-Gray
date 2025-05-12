@@ -1,6 +1,6 @@
 <?php
-$PATH = $_SERVER['SCRIPT_NAME'];
-$basePath = dirname($PATH);
+$basePath = '/NurseProject';
+
 
 $tagline = isset($featuredContent['tagline']) ? $featuredContent['tagline'] : 'Healing Hands, Familiar Spaces';
 $mainContent = isset($featuredContent['mainContent']) ? $featuredContent['mainContent'] : '';

@@ -104,7 +104,7 @@ session_start();
                     <div class="form-actions">
                         <button type="submit">Register</button>
                         <p class="nurse-login">Already have an account? 
-                            <a href="index.php?controller=nurse&action=login">Login</a>
+                            <a href="../../Views/NurseLogin/nurseLogin.php">Login</a>
                         </p>
                     </div>
                 </div>

@@ -45,7 +45,7 @@
                         <a href="/NurseProject/Views/PatientRegistration/clientRegistration.php">Register here</a>
                     </p>
                     <p class="nurse-login">Nurse? 
-                        <a href="../../Views/NurseLogin/nurseLogin.php">Login</a>
+                        <a href="/NurseProject/Views/NurseLogin/nurseLogin.php">Login</a>
                     </p>
                 </div>
             </form>

@@ -45,7 +45,8 @@ label {
 }
 
 input[type="email"],
-input[type="password"] {
+input[type="password"],
+input[type="text"] {
     width: 100%;
     padding: 12px;
     border: none;
@@ -56,13 +57,21 @@ input[type="password"] {
 }
 
 input[type="email"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+input[type="text"]:focus {
     outline: none;
     border: 1px solid #0066cc;
 }
 
 .password-field {
     position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.password-field input {
+    width: 100%;
+    padding-right: 40px;
 }
 
 #togglePassword {
@@ -74,6 +83,20 @@ input[type="password"]:focus {
     border: none;
     cursor: pointer;
     color: #666;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+}
+
+#togglePassword:hover {
+    color: #333;
+}
+
+#togglePassword svg {
+    width: 20px;
+    height: 20px;
 }
 
 .form-options {

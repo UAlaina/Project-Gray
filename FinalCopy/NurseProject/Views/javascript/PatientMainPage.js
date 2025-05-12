@@ -3,9 +3,31 @@ document.addEventListener("DOMContentLoaded", function () {
     const dropdownMenu = document.getElementById('dropdownMenu');
     const darkModeButton = document.getElementById("darkModeBtn");
     const searchInput = document.getElementById("search");
-    const cards = document.querySelectorAll(".patient-card");
+    const cards = document.querySelectorAll(".nurse-card");
     const noResultsMsg = document.getElementById("noNursesMsg");
     const body = document.body;
+    
+    // Reviews modal elements
+    const reviewsBtn = document.getElementById('reviewsBtn');
+    const reviewsModal = document.getElementById('reviewsModal');
+    const closeBtn = document.querySelector('.close');
+    
+    // Reviews modal functionality
+    if (reviewsBtn && reviewsModal && closeBtn) {
+        reviewsBtn.addEventListener('click', function() {
+            reviewsModal.style.display = 'block';
+        });
+        
+        closeBtn.addEventListener('click', function() {
+            reviewsModal.style.display = 'none';
+        });
+        
+        window.addEventListener('click', function(event) {
+            if (event.target == reviewsModal) {
+                reviewsModal.style.display = 'none';
+            }
+        });
+    }
 
     profileIcon.addEventListener('click', function (event) {
         event.stopPropagation();
@@ -46,5 +68,16 @@ document.addEventListener("DOMContentLoaded", function () {
         if (noResultsMsg) {
             noResultsMsg.style.display = visibleCount === 0 ? "block" : "none";
         }
+    });
+
+    // Add click event to nurse cards
+    const nurseCards = document.querySelectorAll(".nurse-card");
+    nurseCards.forEach(card => {
+        card.addEventListener("click", () => {
+            const name = card.getAttribute("data-name");
+            if (name) {
+                window.location.href = `index.php?controller=patient&action=viewProfile&name=${name}`;
+            }
+        });
     });
 });

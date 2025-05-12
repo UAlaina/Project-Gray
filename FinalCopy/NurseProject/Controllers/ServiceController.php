@@ -6,7 +6,6 @@ include_once "Views/ServiceForm/NotificationMail/NotificationMailer.php";
 class ServiceController extends Controller {
 
     public function route() {
-        //global $controller;
         $action = $_GET['action'] ?? "list";
 
         switch ($action) {
@@ -37,8 +36,12 @@ class ServiceController extends Controller {
         $result = ServiceForm::submitForm($_POST);
 
         if ($result['success']) {
+            echo "<p>✅ Form submitted to database successfully.</p>";
+            echo "<p>📧 Preparing to send email to: <strong>{$result['email']}</strong></p>";
+            echo "<p>🔑 Service Code: <strong>{$result['serviceCode']}</strong></p>";
+
             $email = new NotificationMailer();
-            
+
             $emailBody = "
                 <html>
                 <body>
@@ -49,15 +52,21 @@ class ServiceController extends Controller {
                 </body>
                 </html>
             ";
+
+            $sent = $email->sendEmail($result['email'], 'Your Service Code', $emailBody);
+
+            if ($sent) {
+                echo "<p>✅ Email sent successfully!</p>";
+            } else {
+                echo "<p>❌ Failed to send email.</p>";
+            }
+
+            echo "<p><a href='index.php?action=confirmation'>Click here to go to confirmation page</a></p>";
             
-            $email->sendEmail($result['email'], 'Your Service Code', $emailBody);
-            
-            //error_log("Email sent to: {$result['email']} with service code: {$result['serviceCode']}");
-            
-            header("Location: index.php?action=confirmation");
-            exit();
         } else {
-            //echo $result['error'];
+            echo "<p>❌ Failed to submit form to database.</p>";
+            echo "<p><strong>Error:</strong> " . htmlspecialchars($result['error']) . "</p>";
+            echo "<p><a href='javascript:history.back()'>Go back and try again</a></p>";
         }
     }
 }
