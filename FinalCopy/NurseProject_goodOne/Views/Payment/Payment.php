@@ -19,10 +19,10 @@ $PATH = $_SERVER['SCRIPT_NAME'];
         <div class="title">Complete your payment</div>
 
         <!-- Payment Form Starts Here -->
-        <form action="" method="POST" onsubmit="return validateForm();">
+        <form action="process_payment.php" method="POST" onsubmit="return validateForm();">
             <div class="form-group">
                 <label for="card-name">Name on The Card</label>
-                <input type="text" name="patientName"  required>
+                <input type="text" id="card-name" name="card_name" class="input-field" required>
             </div>
             
             <div class="form-group">
@@ -43,13 +43,13 @@ $PATH = $_SERVER['SCRIPT_NAME'];
             
             <div class="form-group">
                 <label for="service-code">Service Code</label>
-                <input type="text" name="serviceCode"  required>
+                <input type="text" id="service-code" name="service_code" class="input-field service-code" required>
             </div>
             
-            <div class="form-group">
-                 <label for="amount">Amount</label>
-                <input type="text"  name="amount"  required>
-            </div>
+            <div class="amount-row">
+                <div class="amount-label">Total Amount</div>
+                <div class="amount-label">Total Amount</div>
+      <div class="amount-value">$0.00</div>
     </div>
     
     <button class="button">Pay Now</button>
@@ -64,7 +64,6 @@ $PATH = $_SERVER['SCRIPT_NAME'];
       const cardNumber = document.getElementById('card-number').value.replace(/\s+/g, '');
       const expiry = document.getElementById('expiry').value.trim();
       const cvv = document.getElementById('cvv').value.trim();
-      const amount = parseFloat(document.getElementById('amount').value);
 
       if (!/^\d{16}$/.test(cardNumber)) {
         alert("Please enter a valid 16-digit card number.");
@@ -97,12 +96,6 @@ $PATH = $_SERVER['SCRIPT_NAME'];
         alert("CVV must be exactly 3 digits.");
         return false;
       }
-
-
-         if (isNaN(amount) || amount <= 0) {
-                alert("Please enter a valid amount.");
-                return false;
-            }
 
       return true;
   
