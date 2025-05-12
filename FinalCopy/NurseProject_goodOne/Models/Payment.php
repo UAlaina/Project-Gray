@@ -3,11 +3,16 @@ include_once "Models/Model.php";
 
 class Payment{
     public $paymentID;
-    public $userID;
+    public $patientID;
+    public $transactionID;
     public $serviceCode;
     public $amount;
     public $timeStamp;
     public $paymentStatus;
+    public $paymentMethod;
+    public $processorID;
+    public $stripeID;
+    public $paypalID;
 
     function __construct($param = null) {
         if (is_object($param)){
@@ -17,7 +22,7 @@ class Payment{
         elseif (is_int($param)) {
             $conn = Model::connect();
 
-            $sql = "SELECT * FROM `payments";
+            $sql = "SELECT * FROM `payment";
             $stmt = $conn->prepare($sql);
 
             $stmt->bind_param("i",$param);
@@ -34,25 +39,35 @@ class Payment{
     private function setProperties($param) {
         if (is_object($param)) {
             $this->paymentID = $param->paymentID;
-            $this->userID = $param->userID;
+            $this->patientID = $param->patientID;
+            $this->transactionID = $param->transactionID;
             $this->serviceCode = $param->serviceCode;
             $this->amount = $param->amount;
             $this->timeStamp = $param->timeStamp;
             $this->paymentStatus = $param->paymentStatus;
+            $this->paymentMethod = $param->paymentMethod;
+            $this->processorID = $param->processorID;
+            $this->stripeID = $param->stripeID;
+            $this->paypalID = $param->paypalID;
         } elseif(is_array($param)) {
             $this->paymentID = $param['paymentID'];
-            $this->userID = $param['userID'];
+            $this->patientID = $param['patientID'];
+            $this->transactionID = $param['transactionID'];
             $this->serviceCode = $param['serviceCode'];
             $this->amount = $param['amount'];
             $this->timeStamp = $param['timeStamp'];
             $this->paymentStatus = $param['paymentStatus'];
+            $this->paymentMethod = $param['paymentMethod'];
+            $this->processorID = $param['processorID'];
+            $this->stripeID = $param['stripeID'];
+            $this->paypalID = $param['paypalID'];
         }
         
     }
 
     public static function list(){
         $list = [];
-        $sql = "SELECT * FROM `payments` WHERE paymentID = ?";
+        $sql = "SELECT * FROM `payment`";
 
         $connection = Model::connect();
         $result = $connection->query($sql);
@@ -64,27 +79,5 @@ class Payment{
 
         return $list;
     }
-
-
-    public static function createPayment($data) {
-    $conn = Model::connect();
-
-    $sql = "INSERT INTO `payments` (patientName, serviceCode, amount, timeStamp, paymentStatus, userId)
-        VALUES (?, ?, ?, NOW(), ?,?)";
-    
-    $stmt = $conn->prepare($sql);
-
-    $stmt->bind_param("ssdsi", 
-                    $data['patientName'],
-                    $data['serviceCode'],
-                    $data['amount'],
-                    $data['paymentStatus'],
-                    $data['userId'],
-                );
-    $stmt->execute();
-}
-
-
-
 }
 ?>
