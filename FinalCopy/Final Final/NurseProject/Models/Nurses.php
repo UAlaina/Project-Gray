@@ -44,6 +44,21 @@ class Nurse extends Model {
         $this->info = $param->info ?? '';
     }
 
+    // public static function list() {
+    //     $list = [];
+    //     $sql = "SELECT * FROM `nurse`";
+
+    //     $connection = Model::connect();
+    //     $result = $connection->query($sql);
+
+    //     while ($row = $result->fetch_object()) {
+    //         $nurse = new Nurse($row);
+    //         array_push($list, $$nurse);
+    //     }
+
+    //     return $list;
+    // }
+
     public static function getPatients($includeUserDetails = false) {
         $conn = Model::connect();
         $sql = $includeUserDetails ?

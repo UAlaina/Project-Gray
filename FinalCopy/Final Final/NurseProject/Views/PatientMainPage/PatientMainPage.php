@@ -25,6 +25,7 @@ if (session_status() === PHP_SESSION_NONE) {
         <nav>
             <a href="#">Chat</a>
             <a href="/NurseProject/Views/Payment/Payment.php">Payment</a>
+            <!-- <a href="/NurseProject/Views/PaymentHistory/history.php">Payment History</a> -->
             <div class="profile-icon" id="profileIcon">
                 <img src="/NurseProject/Views/images/icon.jpg" alt="Profile" />
                 <div class="dropdown-menu" id="dropdownMenu">

@@ -104,6 +104,16 @@ class PatientController extends Controller {
                     exit();
                 }
                 break;
+            
+            case "history":
+                    $userID = $_SESSION['user_id'] ?? null;
+                    if (!$userID) {
+                        die("User not logged in");
+                    }
+
+                    $payments = Payment::getPaymentHistory($userID);
+                    $this->render("PaymentHistory", "history", ["payments" => $payments]);
+                    break;
 
             case "viewProfile":
                 $name = isset($_GET['name']) ? $_GET['name'] : null;

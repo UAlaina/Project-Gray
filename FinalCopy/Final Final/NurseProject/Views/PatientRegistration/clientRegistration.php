@@ -53,17 +53,19 @@
                 <input type="date" name="DOB" id="DOB" required>
             </div>
 
-            <!-- Gender (Updated to match Nurse Registration) -->
-            <div class="form-group">
-                <label for="gender">Gender</label>
-                <select name="gender" id="gender" required>
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="non-binary">Non-Binary</option>
-                    <option value="prefer-not-to-say">Prefer not to say</option>
-                </select>
-            </div>
+            <!-- Gender (Styled like nurse form) -->
+<div class="form-group select-wrapper">
+    <label for="gender">Gender</label>
+    <select name="gender" id="gender" required>
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="non-binary">Non-Binary</option>
+        <option value="prefer-not-to-say">Prefer not to say</option>
+    </select>
+    <span class="dropdown-arrow">▼</span>
+</div>
+
 
             <!-- Password -->
             <div class="form-group">
@@ -72,7 +74,6 @@
                 <div class="error" id="passwordError">Password must be at least 8 characters</div>
             </div>
 
-think: true
             <div class="form-actions">
                 <button type="submit">Register</button>
                 <p class="patient-login">Already have an account? <a href="../../Views/PatientLogin/patientLogin.php">Login</a></p>

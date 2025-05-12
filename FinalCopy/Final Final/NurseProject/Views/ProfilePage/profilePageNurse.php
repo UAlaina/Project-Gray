@@ -62,6 +62,7 @@ include_once "Models/Feedback.php";
                 <div class="action-row">
                     Would you like to communicate with this patient?
                     <button class="btn btn-primary" onclick="location.href='index.php?controller=chat&action=create&patientId=<?php echo $patientId; ?>'">Chat</button>
+                     <!-- <button class="btn btn-primary"?>Chat</button> -->
                 </div>
 
                 <div class="action-row">

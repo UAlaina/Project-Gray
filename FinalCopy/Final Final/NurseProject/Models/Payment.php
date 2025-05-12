@@ -20,7 +20,7 @@ class Payment {
         } elseif (is_int($param)) {
             $conn = Model::connect();
 
-            $sql = "SELECT * FROM `payment` WHERE paymentID = ?";
+            $sql = "SELECT * FROM `payments` WHERE paymentID = ?";
             $stmt = $conn->prepare($sql);
             $stmt->bind_param("i", $param);
             $stmt->execute();
@@ -79,14 +79,31 @@ class Payment {
     $conn = Model::connect();
 
     $stmt = $conn->prepare("
-        INSERT INTO payments (patientName, serviceCode, amount, paymentStatus)
-        VALUES (?, ?, ?, 'Pending')
+        INSERT INTO payments (patientName, serviceCode, amount, paymentStatus, patientID)
+        VALUES (?, ?, ?, 'Pending', ?)
     ");
 
-    $stmt->bind_param("ssd", $data['patient_name'], $data['service_code'], $data['amount']);
+    $stmt->bind_param("ssdi", $data['patient_name'], $data['service_code'], $data['amount'], $data['patient_id']);
 
     return $stmt->execute();
 }
+
+
+public static function getPaymentHistory($patientID) {
+    $conn = Model::connect();
+    $stmt = $conn->prepare("SELECT * FROM payments WHERE patientID = ?");
+    $stmt->bind_param("i", $patientID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    $payments = [];
+    while ($row = $result->fetch_object()) {
+        $payments[] = $row;
+    }
+
+    return $payments;
+}
+
 
 }
 ?>

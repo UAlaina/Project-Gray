@@ -51,19 +51,19 @@ class ChatController extends Controller {
                 }
                 break;
 
-            case "create":
-                if ($_SESSION['user_type'] === 'patient') {
-                    $nurses = Nurse::list();
-                    $this->render("Chat", "createChat", ["nurses" => $nurses]);
-                } elseif ($_SESSION['user_type'] === 'nurse') {
-                    $patients = Nurse::getPatients(true);
-                    $this->render("Chat", "createChat", ["patients" => $patients]);
-                } else {
-                    $_SESSION['error'] = "Unauthorized access.";
-                    header("Location: http://localhost/NurseProject/index.php");
-                    exit();
-                }
-                break;
+            // case "create":
+            //     if ($_SESSION['user_type'] === 'patient') {
+            //         $nurses = Nurse::list();
+            //         $this->render("Chat", "createChat", ["nurses" => $nurses]);
+            //     } elseif ($_SESSION['user_type'] === 'nurse') {
+            //         $patients = Nurse::getPatients(true);
+            //         $this->render("Chat", "createChat", ["patients" => $patients]);
+            //     } else {
+            //         $_SESSION['error'] = "Unauthorized access.";
+            //         header("Location: http://localhost/NurseProject/index.php");
+            //         exit();
+            //     }
+            //     break;
 
             case "startChat":
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

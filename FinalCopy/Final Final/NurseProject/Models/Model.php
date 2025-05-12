@@ -6,7 +6,7 @@ class Model{
         $user = "root";
         $pass = "";
         $db = "nurserysystem";
-        $port = "3307";
+        $port = "3306";
         
 
         $conn = new mysqli($server,$user, $pass, $db,$port);
