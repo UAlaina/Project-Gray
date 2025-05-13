@@ -38,7 +38,6 @@
                 <div class="form-group">
                     <label for="description">Description of how you want the patient to visualize you</label>
                     <textarea name="description" id="description" rows="6" required></textarea>
-                    <div class="error" id="descriptionError"></div>
                 </div>
 
                 <div class="form-group">
@@ -96,7 +95,6 @@
                     <div class="form-group">
                         <label for="cardName">Name on the Card</label>
                         <input type="text" name="cardName" id="cardName" required>
-                        <div class="error" id="cardNameError"></div>
                     </div>
 
                     <div class="form-group">

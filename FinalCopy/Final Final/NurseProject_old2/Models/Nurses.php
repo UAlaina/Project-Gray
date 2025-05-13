@@ -95,12 +95,10 @@ public static function register($data) {
         }
     }
 
-    // Email validation
     if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
         return "Invalid email address.";
     }
 
-    // Name validations - letters only
     if (!preg_match("/^[A-Za-z\s'-]+$/", $data['firstName'])) {
         return "First name must contain only letters.";
     }
@@ -113,61 +111,27 @@ public static function register($data) {
         return "Name on the card must contain only letters.";
     }
 
-    // Description validation - must contain at least one letter
     if (!preg_match("/[A-Za-z]+/", $data['description'])) {
         return "Description must contain at least one letter.";
     }
 
-    // Password validation - minimum 8 characters
     if (strlen($data['password']) < 8) {
         return "Password must be at least 8 characters.";
     }
 
-    // Years of experience validation - number between 4 and 60
     if (!is_numeric($data['yearsExperience']) || $data['yearsExperience'] < 4 || $data['yearsExperience'] > 60) {
         return "Years of experience must be between 4 and 60.";
     }
 
-    // Date of birth validation - not in future and at least 18 years old
     $dob = strtotime($data['DOB']);
     if ($dob === false || $dob > time()) {
         return "Invalid date of birth.";
     }
     $age = date('Y') - date('Y', $dob);
-    if ($age < 18) {
-        return "You must be at least 18 years old to register.";
+    if ($age < 22) {
+        return "You must be at least 22 years old to register.";
     }
 
-    // ZIP Code validation - Canadian postal code format
-    if (!preg_match("/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/", $data['zipCode'])) {
-        return "Invalid ZIP code. Must be in Canadian format (e.g., A1B 2C3).";
-    }
-
-    // Card number validation - 16 digits
-    if (isset($data['cardNumber']) && !preg_match("/^\d{16}$/", preg_replace('/\s+/', '', $data['cardNumber']))) {
-        return "Card number must be 16 digits.";
-    }
-
-    // CVV validation - 3 digits
-    if (isset($data['cvv']) && !preg_match("/^\d{3}$/", $data['cvv'])) {
-        return "CVV must be 3 digits.";
-    }
-
-    // Expiry date validation
-    if (isset($data['expireDate'])) {
-        $expDate = $data['expireDate'];
-        if (!preg_match("/^(0[1-9]|1[0-2])\/\d{2}$/", $expDate)) {
-            return "Expire date must be in MM/YY format.";
-        }
-        
-        list($month, $year) = explode('/', $expDate);
-        $expiry = mktime(0, 0, 0, $month + 1, 0, 2000 + intval($year));
-        if ($expiry < time()) {
-            return "Card has expired.";
-        }
-    }
-
-    // Proceed with user registration
     $stmt = $conn->prepare("
         INSERT INTO users (email, password, firstName, lastName, zipCode, gender, createdAt, updatedAt, DOB)
         VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), ?)
