@@ -54,17 +54,18 @@
             </div>
 
             <!-- Gender (Styled like nurse form) -->
-            <div class="form-group select-wrapper">
-                <label for="gender">Gender</label>
-                <select name="gender" id="gender" required>
-                    <option value="">Select Gender</option>
-                    <option value="Male">Male</option>
-                    <option value="Female">Female</option>
-                    <option value="non-binary">Non-Binary</option>
-                    <option value="prefer-not-to-say">Prefer not to say</option>
-                </select>
-                <span class="dropdown-arrow">▼</span>
-            </div>
+<div class="form-group select-wrapper">
+    <label for="gender">Gender</label>
+    <select name="gender" id="gender" required>
+        <option value="">Select Gender</option>
+        <option value="Male">Male</option>
+        <option value="Female">Female</option>
+        <option value="non-binary">Non-Binary</option>
+        <option value="prefer-not-to-say">Prefer not to say</option>
+    </select>
+    <span class="dropdown-arrow">▼</span>
+</div>
+
 
             <!-- Password -->
             <div class="form-group">

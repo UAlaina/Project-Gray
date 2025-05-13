@@ -62,11 +62,11 @@ class Nurse extends Model {
     public static function getPatients($includeUserDetails = false) {
         $conn = Model::connect();
         $sql = $includeUserDetails ?
-        "SELECT u.firstName, u.lastName, u.zipCode, p.problem 
-        FROM patients p
-        JOIN users u ON p.patientID = u.Id"
-        :
-        "SELECT patientID, problem FROM patients";
+            "SELECT u.firstName, u.lastName, u.zipCode, p.problem 
+             FROM patients p
+             JOIN users u ON p.patientID = u.Id"
+            :
+            "SELECT patientID, problem FROM patients";
 
         $result = $conn->query($sql);
         $patients = [];
@@ -85,96 +85,30 @@ class Nurse extends Model {
         return $result->fetch_object() ?: null;
     }
 
-public static function register($data) {
-    $conn = Model::connect();
+    public static function register($data) {
+        $conn = Model::connect();
 
-    $required = ['email', 'password', 'firstName', 'lastName', 'zipCode', 'gender', 'description', 'DOB', 'licenseNumber', 'schedule', 'yearsExperience', 'cardName'];
-    foreach ($required as $field) {
-        if (!isset($data[$field]) || trim((string)$data[$field]) === '') {
-            return "The field '$field' is required.";
+        $required = ['email', 'password', 'firstName', 'lastName', 'zipCode', 'gender', 'description', 'DOB', 'licenseNumber', 'schedule', 'yearsExperience'];
+        foreach ($required as $field) {
+            if (empty($data[$field])) return false;
         }
+
+        $stmt = $conn->prepare("
+            INSERT INTO users (email, password, firstName, lastName, zipCode, gender, createdAt, updatedAt, DOB)
+            VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), ?)
+        ");
+        $hashedPassword = sha1($data['password']);
+        $stmt->bind_param("sssssss", $data['email'], $hashedPassword, $data['firstName'], $data['lastName'], $data['zipCode'], $data['gender'], $data['DOB']);
+        if (!$stmt->execute()) return false;
+
+        $user_id = $conn->insert_id;
+        $stmt2 = $conn->prepare("
+            INSERT INTO nurse (NurseID, licenseNumber, registrationFee, schedule, specialitiesGoodAt, clientHistory, feedbackReceived, rating, years_experience, info)
+            VALUES (?, ?, 0, ?, 'General Care', '', '', 0, ?, ?)
+        ");
+        $stmt2->bind_param("issis", $user_id, $data['licenseNumber'], $data['schedule'], $data['yearsExperience'], $data['description']);
+        return $stmt2->execute();
     }
-
-    if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-        return "Invalid email address.";
-    }
-
-    if (!preg_match("/^[A-Za-z\s'-]+$/", $data['firstName'])) {
-        return "First name must contain only letters.";
-    }
-
-    if (!preg_match("/^[A-Za-z\s'-]+$/", $data['lastName'])) {
-        return "Last name must contain only letters.";
-    }
-
-    if (!preg_match("/^[A-Za-z\s'-]+$/", $data['cardName'])) {
-        return "Name on the card must contain only letters.";
-    }
-
-    if (!preg_match("/[A-Za-z]+/", $data['description'])) {
-        return "Description must contain at least one letter.";
-    }
-
-    if (strlen($data['password']) < 8) {
-        return "Password must be at least 8 characters.";
-    }
-
-    if (!is_numeric($data['yearsExperience']) || $data['yearsExperience'] < 4 || $data['yearsExperience'] > 60) {
-        return "Years of experience must be between 4 and 60.";
-    }
-
-    $dob = strtotime($data['DOB']);
-    if ($dob === false || $dob > time()) {
-        return "Invalid date of birth.";
-    }
-    $age = date('Y') - date('Y', $dob);
-    if ($age < 22) {
-        return "You must be at least 22 years old to register.";
-    }
-
-    $stmt = $conn->prepare("
-        INSERT INTO users (email, password, firstName, lastName, zipCode, gender, createdAt, updatedAt, DOB)
-        VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), ?)
-    ");
-    if (!$stmt) return "Database error (users): " . $conn->error;
-
-    $hashedPassword = sha1($data['password']);
-    $stmt->bind_param("sssssss",
-        $data['email'],
-        $hashedPassword,
-        $data['firstName'],
-        $data['lastName'],
-        $data['zipCode'],
-        $data['gender'],
-        $data['DOB']
-    );
-
-    if (!$stmt->execute()) return "Failed to save user: " . $stmt->error;
-
-    $user_id = $conn->insert_id;
-
-    $stmt2 = $conn->prepare("
-        INSERT INTO nurse (
-            NurseID, licenseNumber, registrationFee, schedule,
-            specialitiesGoodAt, clientHistory, feedbackReceived,
-            rating, years_experience, info
-        ) VALUES (?, ?, 0, ?, 'General Care', '', '', 0, ?, ?)
-    ");
-    if (!$stmt2) return "Database error (nurse): " . $conn->error;
-
-    $stmt2->bind_param("issis",
-        $user_id,
-        $data['licenseNumber'],
-        $data['schedule'],
-        $data['yearsExperience'],
-        $data['description']
-    );
-
-    if (!$stmt2->execute()) return "Failed to save nurse info: " . $stmt2->error;
-
-    return true;
-}
-
 
     public static function authenticate($email, $password) {
         $conn = Model::connect();
@@ -184,7 +118,7 @@ public static function register($data) {
             JOIN nurse n ON u.Id = n.NurseID
             WHERE LOWER(u.email) = LOWER(?) AND u.password = ?
             LIMIT 1
-            ");
+        ");
         $hashedPassword = sha1($password);
         $stmt->bind_param("ss", $email, $hashedPassword);
         $stmt->execute();
@@ -202,7 +136,7 @@ public static function register($data) {
             FROM users u
             LEFT JOIN patients p ON u.id = p.patientID
             WHERE LOWER(u.firstName) = LOWER(?) AND LOWER(u.lastName) = LOWER(?)
-            ");
+        ");
         $stmt->bind_param("ss", $parts[0], $parts[1]);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
@@ -215,7 +149,7 @@ public static function register($data) {
             FROM users u
             LEFT JOIN patients p ON u.id = p.patientID
             WHERE u.id = ?
-            ");
+        ");
         $stmt->bind_param("i", $id);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc();
@@ -229,11 +163,11 @@ public static function register($data) {
         $conn = Model::connect();
         $stmt = $conn->prepare("
             SELECT u.Id, u.firstName, u.lastName, u.email, u.gender, u.zipCode, u.DOB,
-            n.NurseID, n.licenseNumber, n.schedule, n.years_experience, n.info 
+                   n.NurseID, n.licenseNumber, n.schedule, n.years_experience, n.info 
             FROM users u 
             JOIN nurse n ON u.Id = n.NurseID 
             WHERE u.Id = ?
-            ");
+        ");
         $stmt->bind_param("i", $userId);
         $stmt->execute();
         return $stmt->get_result()->fetch_assoc() ?: null;

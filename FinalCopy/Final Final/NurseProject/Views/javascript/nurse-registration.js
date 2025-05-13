@@ -1,193 +1,165 @@
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('registrationForm');
-    
-    // Form validation function
-    form.addEventListener('submit', function(event) {
+
+    form.addEventListener('submit', function (event) {
         event.preventDefault();
-        
-        // Reset all error messages
         const errorElements = document.querySelectorAll('.error');
-        errorElements.forEach(element => {
-            element.textContent = '';
-        });
-        
-        let isValid = true;
-        
-        // Validate full name
-        const fullName = document.getElementById('fullName').value.trim();
-        if (!fullName) {
-            document.getElementById('fullNameError').textContent = 'Full name is required';
-            isValid = false;
-        } else if (fullName.length < 2) {
-            document.getElementById('fullNameError').textContent = 'Please enter a valid name';
-            isValid = false;
+        errorElements.forEach(el => el.textContent = '');
+
+        const namePattern = /^[A-Za-z\s'-]+$/;
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName = document.getElementById('lastName').value.trim();
+
+        if (!firstName || !namePattern.test(firstName)) {
+            document.getElementById('firstNameError').textContent = 'Please enter a valid first name (letters only)';
+            alert('Invalid First Name: Only letters, spaces, apostrophes and hyphens are allowed.');
+            return;
         }
-        
-        // Validate email
+
+        if (!lastName || !namePattern.test(lastName)) {
+            document.getElementById('lastNameError').textContent = 'Please enter a valid last name (letters only)';
+            alert('Invalid Last Name: Only letters, spaces, apostrophes and hyphens are allowed.');
+            return;
+        }
+
         const email = document.getElementById('email').value.trim();
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!email) {
-            document.getElementById('emailError').textContent = 'Email is required';
-            isValid = false;
-        } else if (!emailRegex.test(email)) {
-            document.getElementById('emailError').textContent = 'Please enter a valid email address';
-            isValid = false;
+        const emailRegex = /^[^\s@]+@[^\s@]+\.(com|ca)$/i;
+        if (!email || !emailRegex.test(email)) {
+            document.getElementById('emailError').textContent = 'Enter a valid email ending in .com or .ca';
+            alert('Invalid Email: Must contain @ and end with .com or .ca');
+            return;
         }
-        
-        // Validate password
+
         const password = document.getElementById('password').value;
-        if (!password) {
-            document.getElementById('passwordError').textContent = 'Password is required';
-            isValid = false;
-        } else if (password.length < 8) {
+        if (!password || password.length < 8) {
             document.getElementById('passwordError').textContent = 'Password must be at least 8 characters long';
-            isValid = false;
+            alert('Password too short: Must be at least 8 characters.');
+            return;
         }
-        
-        // Validate date of birth
-        const dob = document.getElementById('dob').value;
+
+        const dob = document.getElementById('DOB').value;
         if (!dob) {
-            document.getElementById('dobError').textContent = 'Date of birth is required';
-            isValid = false;
+            document.getElementById('DOBError').textContent = 'Date of birth is required';
+            alert('Date of birth is required.');
+            return;
         } else {
-            const birthDate = new Date(dob);
+            const dobDate = new Date(dob);
             const today = new Date();
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const monthDiff = today.getMonth() - birthDate.getMonth();
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-            if (age < 18) {
-                document.getElementById('dobError').textContent = 'You must be at least 18 years old';
-                isValid = false;
+            const age = today.getFullYear() - dobDate.getFullYear();
+            const m = today.getMonth() - dobDate.getMonth();
+            const dayValid = m > 0 || (m === 0 && today.getDate() >= dobDate.getDate());
+            const is22 = age > 22 || (age === 22 && dayValid);
+
+            if (dobDate > today) {
+                document.getElementById('DOBError').textContent = 'Date of birth cannot be in the future';
+                alert('Date of birth cannot be in the future.');
+                return;
+            } else if (!is22) {
+                document.getElementById('DOBError').textContent = 'You must be at least 22 years old to register';
+                alert('You must be at least 22 years old to register.');
+                return;
             }
         }
-        
-        // Validate gender
+
         const gender = document.getElementById('gender').value;
         if (!gender) {
             document.getElementById('genderError').textContent = 'Please select a gender';
-            isValid = false;
+            alert('Gender is required.');
+            return;
         }
-        
-        // Validate years of experience
-        const experience = document.getElementById('experience').value;
-        if (!experience) {
-            document.getElementById('experienceError').textContent = 'Years of experience is required';
-            isValid = false;
-        } else if (experience < 0) {
-            document.getElementById('experienceError').textContent = 'Years of experience cannot be negative';
-            isValid = false;
-        } else if (experience < 2) {
-            document.getElementById('experienceError').textContent = 'Minimum 2 years of experience required';
-            isValid = false;
+
+        const yearsExperience = document.getElementById('yearsExperience').value;
+        if (!yearsExperience || isNaN(yearsExperience) || Number(yearsExperience) < 4) {
+            document.getElementById('yearsExperienceError').textContent = 'Minimum 4 years experience required';
+            alert('Minimum 4 years of experience required.');
+            return;
         }
-        
-        // Validate license number
+
         const licenseNumber = document.getElementById('licenseNumber').value.trim();
-        if (!licenseNumber) {
-            document.getElementById('licenseNumberError').textContent = 'License number is required';
-            isValid = false;
-        } else if (licenseNumber.length < 5) {
+        if (!licenseNumber || licenseNumber.length < 5) {
             document.getElementById('licenseNumberError').textContent = 'Please enter a valid license number';
-            isValid = false;
+            alert('License number must be at least 5 characters.');
+            return;
         }
-        
-        // Validate zip code
+
         const zipCode = document.getElementById('zipCode').value.trim();
-        const zipRegex = /(^\d{5}$)|(^\d{5}-\d{4}$)/;
-        if (!zipCode) {
-            document.getElementById('zipCodeError').textContent = 'Zip code is required';
-            isValid = false;
-        } else if (!zipRegex.test(zipCode)) {
-            document.getElementById('zipCodeError').textContent = 'Please enter a valid zip code (e.g., 12345 or 12345-6789)';
-            isValid = false;
+        const zipRegex = /^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/;
+        if (!zipRegex.test(zipCode)) {
+            document.getElementById('zipCodeError').textContent = 'Enter a valid Canadian zip code (e.g. A1B 2C3)';
+            alert('Invalid Zip Code: Must be Canadian format (e.g. A1B 2C3)');
+            return;
         }
-        
-        // Validate schedule
-        const schedule = document.getElementById('schedule').value;
+
+        const schedule = document.getElementById('schedule').value.trim();
         if (!schedule) {
-            document.getElementById('scheduleError').textContent = 'Please select a schedule';
-            isValid = false;
+            document.getElementById('scheduleError').textContent = 'Schedule is required';
+            alert('Schedule is required.');
+            return;
         }
-        
-        // Validate specialties (at least one must be selected)
-        const specialties = document.querySelectorAll('input[name="specialties"]:checked');
-        if (specialties.length === 0) {
-            document.getElementById('specialtiesError').textContent = 'Please select at least one specialty';
-            isValid = false;
+
+        const cardNumber = document.getElementById('cardNumber').value.replace(/\s+/g, '');
+        if (!/^\d{16}$/.test(cardNumber)) {
+            document.getElementById('cardNumberError').textContent = 'Card number must be 16 digits (numbers only)';
+            alert('Invalid Card Number: Must be 16 digits with no letters.');
+            return;
         }
-        
-        // Validate payment information
-        const cardNumber = document.getElementById('cardNumber').value.trim();
-        if (!cardNumber) {
-            document.getElementById('cardNumberError').textContent = 'Card number is required';
-            isValid = false;
-        } else if (!/^\d{16}$/.test(cardNumber.replace(/\s/g, ''))) {
-            document.getElementById('cardNumberError').textContent = 'Please enter a valid 16-digit card number';
-            isValid = false;
-        }
-        
-        const expiryDate = document.getElementById('expiryDate').value.trim();
-        const expiryRegex = /^(0[1-9]|1[0-2])\/\d{2}$/;
-        if (!expiryDate) {
-            document.getElementById('expiryDateError').textContent = 'Expiry date is required';
-            isValid = false;
-        } else if (!expiryRegex.test(expiryDate)) {
-            document.getElementById('expiryDateError').textContent = 'Please enter a valid expiry date (MM/YY)';
-            isValid = false;
+
+        const expireDate = document.getElementById('expireDate').value.trim();
+        const expireMatch = expireDate.match(/^(0[1-9]|1[0-2])\/\d{2}$/);
+        if (!expireMatch) {
+            document.getElementById('expireDateError').textContent = 'Use MM/YY format';
+            alert('Invalid Expiry Date: Use MM/YY format.');
+            return;
         } else {
-            // Check if card is expired
-            const [month, year] = expiryDate.split('/');
-            const expiryMonth = parseInt(month, 10) - 1; // JS months are 0-based
-            const expiryYear = 2000 + parseInt(year, 10);
-            const currentDate = new Date();
-            const expiryDateObj = new Date(expiryYear, expiryMonth, 1);
-            
-            if (expiryDateObj < currentDate) {
-                document.getElementById('expiryDateError').textContent = 'Card has expired';
-                isValid = false;
+            const [month, year] = expireDate.split('/');
+            const expiry = new Date(`20${year}`, parseInt(month), 0);
+            const now = new Date();
+            if (expiry < now) {
+                document.getElementById('expireDateError').textContent = 'Card has expired';
+                alert('Card has expired.');
+                return;
             }
         }
-        
+
         const cvv = document.getElementById('cvv').value.trim();
-        if (!cvv) {
-            document.getElementById('cvvError').textContent = 'CVV is required';
-            isValid = false;
-        } else if (!/^\d{3,4}$/.test(cvv)) {
-            document.getElementById('cvvError').textContent = 'Please enter a valid CVV (3 or 4 digits)';
-            isValid = false;
+        if (!/^\d{3,4}$/.test(cvv)) {
+            document.getElementById('cvvError').textContent = 'CVV must be 3 or 4 digits';
+            alert('Invalid CVV: Must be 3 or 4 digits only.');
+            return;
         }
-        
-        // If form is valid, submit it
-        if (isValid) {
-            // For demonstration, we'll just show a success message
-            // In a real application, you would send the data to the server
-            alert('Registration successful! You can now log in.');
-            form.reset();
-            window.location.href = 'login.html'; // Redirect to login page
+
+        const description = document.getElementById('description').value.trim();
+        if (!description || description.length < 5) {
+            alert("Description is required.");
+            return;
         }
+
+        const cardName = document.getElementById('cardName').value.trim();
+        if (!/^[A-Za-z\s'-]+$/.test(cardName)) {
+            alert("Name on card must be letters only.");
+            return;
+        }
+
+        form.querySelector('button[type="submit"]').disabled = true;
+        form.submit();
     });
-    
-    // Format card number with spaces
+
     document.getElementById('cardNumber').addEventListener('input', function (e) {
-        let value = e.target.value.replace(/\s+/g, '');
+        let value = e.target.value.replace(/\D/g, '');
         if (value.length > 0) {
-            value = value.match(new RegExp('.{1,4}', 'g')).join(' ');
+            value = value.match(/.{1,4}/g).join(' ');
         }
         e.target.value = value;
     });
-    
-    // Format expiry date (MM/YY)
-    document.getElementById('expiryDate').addEventListener('input', function (e) {
+
+    document.getElementById('expireDate').addEventListener('input', function (e) {
         let value = e.target.value.replace(/\D/g, '');
         if (value.length > 2) {
             value = value.slice(0, 2) + '/' + value.slice(2, 4);
         }
         e.target.value = value;
     });
-    
-    // Only allow numbers in CVV
+
     document.getElementById('cvv').addEventListener('input', function (e) {
         e.target.value = e.target.value.replace(/\D/g, '').slice(0, 4);
     });

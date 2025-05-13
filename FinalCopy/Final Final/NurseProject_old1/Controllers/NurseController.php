@@ -51,9 +51,8 @@ class NurseController extends Controller {
 
             case "register":
                 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    $result = Nurse::register($_POST);
-
-                    if ($result === true) {
+                    $success = Nurse::register($_POST);
+                    if ($success) {
                         $user = Users::authenticate($_POST['email'], $_POST['password']);
                         if ($user) {
                             $_SESSION['user_id'] = $user->id;
@@ -63,13 +62,10 @@ class NurseController extends Controller {
                             header("Location: index.php?controller=nurse&action=mainpage");
                             exit();
                         } else {
-                            echo "<script>alert('Registered but login failed. Try logging in manually.'); window.history.back();</script>";
-                            exit();
+                            echo "Registration succeeded but login failed.";
                         }
                     } else {
-                        $safeMessage = htmlspecialchars($result, ENT_QUOTES);
-                        echo "<script>alert('$safeMessage'); window.history.back();</script>";
-                        exit();
+                        echo "Registration failed. Please try again.";
                     }
                 } else {
                     $this->render("NurseRegistration", "nurseRegistration", []);
