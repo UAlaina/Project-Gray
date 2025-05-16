@@ -1,11 +1,11 @@
 <?php
 include_once "Controllers/Controller.php";
-include_once "  Models/Chat.php";
+include_once "Models/Chat.php";
 include_once "Models/Users.php";
 include_once "Models/Nurses.php";
 
 class ChatController extends Controller {
-    
+
     public function route() {
         if (session_status() === PHP_SESSION_NONE) {
             session_start();
@@ -22,34 +22,34 @@ class ChatController extends Controller {
 
         switch ($action) {
             case "list":
-                $userId = $_SESSION['user_id'];
-                $userType = $_SESSION['user_type'];
-                $chats = Chat::getChatsByUserId($userId, $userType);
-                $this->render("Chat", "chatList", ["chats" => $chats, "userType" => $userType]);
-                break;
+            $userId = $_SESSION['user_id'];
+            $userType = $_SESSION['user_type'];
+            $chats = Chat::getChatsByUserId($userId, $userType);
+            $this->render("Chat", "chatList", ["chats" => $chats, "userType" => $userType]);
+            break;
 
             case "view":
-                if ($chatRoomId > 0) {
-                    $userId = $_SESSION['user_id'];
-                    $userType = $_SESSION['user_type'];
-                    $chatData = Chat::getChatRoom($chatRoomId, $userId);
-                    
-                    if (!$chatData) {
-                        $_SESSION['error'] = "Chat room not found or you don't have access to it.";
-                        header("Location: http://localhost/NurseProject/index.php?controller=chat&action=list");
-                        exit();
-                    }
-                    
-                    $this->render("Chat", "chatRoom", [
-                        "chatRoom" => $chatData, 
-                        "userId" => $userId,
-                        "userType" => $userType
-                    ]);
-                } else {
+            if ($chatRoomId > 0) {
+                $userId = $_SESSION['user_id'];
+                $userType = $_SESSION['user_type'];
+                $chatData = Chat::getChatRoom($chatRoomId, $userId);
+
+                if (!$chatData) {
+                    $_SESSION['error'] = "Chat room not found or you don't have access to it.";
                     header("Location: http://localhost/NurseProject/index.php?controller=chat&action=list");
                     exit();
                 }
-                break;
+
+                $this->render("Chat", "chatRoom", [
+                    "chatRoom" => $chatData, 
+                    "userId" => $userId,
+                    "userType" => $userType
+                ]);
+            } else {
+                header("Location: http://localhost/NurseProject/index.php?controller=chat&action=list");
+                exit();
+            }
+            break;
 
             // case "create":
             //     if ($_SESSION['user_type'] === 'patient') {
@@ -66,75 +66,85 @@ class ChatController extends Controller {
             //     break;
 
             case "startChat":
-                if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-                    $clientId = isset($_POST['clientId']) ? intval($_POST['clientId']) : 0;
-                    $nurseId = isset($_POST['nurseId']) ? intval($_POST['nurseId']) : 0;
-                    $serviceCode = isset($_POST['serviceCode']) ? $_POST['serviceCode'] : "";
-                    
-                    $userId = $_SESSION['user_id'];
-                    $userType = $_SESSION['user_type'];
-                    
-                    if ($userType === 'patient') {
-                        $clientId = $userId;
-                    } elseif ($userType === 'nurse') {
-                        $nurseId = $userId;
-                    }
-                    
-                    if ($clientId > 0 && $nurseId > 0) {
-                        $chatRoomId = Chat::createChatRoom($clientId, $nurseId, $serviceCode);
-                        if ($chatRoomId) {
-                            header("Location: http://localhost/NurseProject/index.php?controller=chat&action=view&chatRoomId=" . $chatRoomId);
-                            exit();
-                        } else {
-                            $_SESSION['error'] = "Failed to create chat room.";
-                        }
-                    } else {
-                        $_SESSION['error'] = "Invalid user selection.";
-                    }
-                    
-                    header("Location: http://localhost/NurseProject/index.php?controller=chat&action=create");
+            if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+                $clientId = isset($_POST['clientId']) ? intval($_POST['clientId']) : 0;
+                $nurseId = isset($_POST['nurseId']) ? intval($_POST['nurseId']) : 0;
+                $serviceCode = isset($_POST['serviceCode']) ? $_POST['serviceCode'] : "";
+
+                $userId = $_SESSION['user_id'];
+                $userType = $_SESSION['user_type'];
+
+        // Override based on who is logged in
+                if ($userType === 'patient') {
+                    $clientId = $userId;
+                } elseif ($userType === 'nurse') {
+                    $nurseId = $userId;
+                }
+
+        // DEBUGGING OUTPUT
+                echo "<pre>";
+                echo "clientId: $clientId\n";
+                echo "nurseId: $nurseId\n";
+                echo "userType: $userType\n";
+                echo "userId: $userId\n";
+                echo "serviceCode: $serviceCode\n";
+
+                $chatRoomId = Chat::createChatRoom($clientId, $nurseId, $serviceCode);
+                echo "chatRoomId: $chatRoomId\n";
+                echo "</pre>";
+
+                if ($chatRoomId) {
+                    echo "✅ Redirecting to chat room...";
+                    header("Location: index.php?controller=chat&action=view&chatRoomId=" . $chatRoomId);
+                    exit();
+                } else {
+                    echo "❌ Failed to create chat room.";
                     exit();
                 }
-                break;
+            }
+            break;
+
+
+
 
             case "sendMessage":
-                if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['chatRoomId'])) {
-                    $response = ['success' => false];
-                    
-                    $chatRoomId = intval($_POST['chatRoomId']);
-                    $senderId = intval($_SESSION['user_id']);
-                    $message = isset($_POST['message']) ? trim($_POST['message']) : "";
-                    
-                    if (!empty($message) && $chatRoomId > 0) {
-                        $result = Chat::addMessage($chatRoomId, $senderId, $message);
-                        if ($result) {
-                            $response['success'] = true;
-                        }
+            if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['chatRoomId'])) {
+                $response = ['success' => false];
+
+                $chatRoomId = intval($_POST['chatRoomId']);
+                $senderId = intval($_SESSION['user_id']);
+                $message = isset($_POST['message']) ? trim($_POST['message']) : "";
+
+                if (!empty($message) && $chatRoomId > 0) {
+                    $result = Chat::addMessage($chatRoomId, $senderId, $message);
+                    if ($result) {
+                        $response['success'] = true;
                     }
-                    
-                    header('Content-Type: application/json');
-                    echo json_encode($response);
-                    exit();
                 }
-                break;
+
+                header("Location: index.php?controller=chat&action=view&chatRoomId=" . $chatRoomId);
+                exit();
+
+            }
+            break;
 
             case "getMessages":
-                if (isset($_GET['chatRoomId'])) {
-                    $chatRoomId = intval($_GET['chatRoomId']);
-                    $lastId = isset($_GET['lastId']) ? intval($_GET['lastId']) : 0;
-                    
-                    $messages = Chat::getMessages($chatRoomId, $lastId);
-                    
-                    header('Content-Type: application/json');
-                    echo json_encode($messages);
-                    exit();
-                }
-                break;
+            if (isset($_GET['chatRoomId'])) {
+                $chatRoomId = intval($_GET['chatRoomId']);
+                $lastId = isset($_GET['lastId']) ? intval($_GET['lastId']) : 0;
+
+                $messages = Chat::getMessages($chatRoomId, $lastId);
+
+                header('Content-Type: application/json');
+                echo json_encode($messages);
+                exit();
+            }
+            break;
 
             default:
-                header("Location: http://localhost/NurseProject/index.php?controller=chat&action=list");
-                exit();
-                break;
+            header("Location: http://localhost/NurseProject/index.php?controller=chat&action=list");
+            exit();
+            break;
         }
     }
 }

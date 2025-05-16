@@ -51,7 +51,7 @@ function displayStars($rating) {
                 <input type="text" id="search" placeholder="Search patient by name" />
             </div>
             <nav>
-                <a href="#">Chat</a>
+                <a href="index.php?controller=chat&action=list">Chat</a>
                 <a href="#" id="reviewsBtn">My Reviews</a>
                 <div class="profile-icon" id="profileIcon">
                     <img src="/NurseProject/Views/images/icon.jpg" alt="Profile" />

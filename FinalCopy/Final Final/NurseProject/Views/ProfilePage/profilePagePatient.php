@@ -131,7 +131,13 @@ $averageRating = Feedback::getAverageRatingByNurseId($nurseId);
         <div class="actions">
             <div class="action-row">
                 Would you like to book an appointment with them?
-                <button class="btn btn-primary" onclick="location.href='index.php?controller=chat&action=create'">Chat</button>
+                <form method="POST" action="index.php?controller=chat&action=startChat">
+                    <input type="hidden" name="clientId" value="<?php echo $_SESSION['user_id']; ?>">
+                    <input type="hidden" name="nurseId" value="<?php echo $nurseId; ?>">
+                    <input type="hidden" name="serviceCode" value="GEN-CHAT">
+                    <button type="submit" class="btn btn-primary">Chat</button>
+                </form>
+
             </div>
 
             <div class="action-row">

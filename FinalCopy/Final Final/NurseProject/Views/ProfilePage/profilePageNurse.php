@@ -1,5 +1,14 @@
 <?php
 include_once "Models/Feedback.php";
+
+// ✅ Ensure $profileData exists
+if (!isset($profileData)) {
+    echo "<p style='color:red;'>❌ No patient profile data found.</p>";
+    return;
+}
+
+// ✅ Safe fallback for patientId
+$patientId = $profileData['id'] ?? $profileData['patientID'] ?? 0;
 ?>
 
 <!DOCTYPE html>
@@ -43,8 +52,6 @@ include_once "Models/Feedback.php";
                             <span><?php echo htmlspecialchars($profileData['zipCode']); ?></span>
                         </div>
                     </div>
-
-                    <!-- Nurses cannot see patient rating -->
                 </div>
             </div>
 
@@ -55,15 +62,22 @@ include_once "Models/Feedback.php";
                 </div>
             </div>
 
-            <!-- Reviews section hidden for nurses -->
-            <!-- <div class="reviews-section"> ... </div> -->
-
             <div class="actions">
                 <div class="action-row">
                     Would you like to communicate with this patient?
-                    <button class="btn btn-primary" onclick="location.href='index.php?controller=chat&action=create&patientId=<?php echo $patientId; ?>'">Chat</button>
-                     <!-- <button class="btn btn-primary"?>Chat</button> -->
+                    <?php if ($patientId > 0 && isset($_SESSION['user_id'])): ?>
+                        <form method="POST" action="index.php?controller=chat&action=startChat">
+                            <input type="hidden" name="clientId" value="<?php echo (int) $patientId; ?>">
+                            <input type="hidden" name="nurseId" value="<?php echo (int) $_SESSION['user_id']; ?>">
+                            <input type="hidden" name="serviceCode" value="GEN-CHAT">
+                            <button type="submit" class="btn btn-primary">Chat</button>
+                        </form>
+                    <?php else: ?>
+                        <p style="color:red;">Cannot start chat — patient or session ID is missing.</p>
+                    <?php endif; ?>
                 </div>
+
+
 
                 <div class="action-row">
                     Would you like to create a service form for this patient?

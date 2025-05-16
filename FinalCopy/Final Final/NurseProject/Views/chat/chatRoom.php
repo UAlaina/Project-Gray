@@ -1,55 +1,93 @@
-<?php include_once "NurseProject/Views/chat/header.php"; ?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Chat Room</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #eef2f3;
+            padding: 20px;
+        }
+        .chat-container {
+            background-color: white;
+            padding: 20px;
+            max-width: 700px;
+            margin: auto;
+            box-shadow: 0 0 10px rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+        .message-list {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 400px;
+            overflow-y: auto;
+            margin-bottom: 15px;
+        }
+        .message {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .from-me {
+            background-color: #d1f0ff;
+            text-align: right;
+        }
+        .from-them {
+            background-color: #f1f1f1;
+            text-align: left;
+        }
+        .timestamp {
+            font-size: 10px;
+            color: #666;
+        }
+        form {
+            display: flex;
+            gap: 10px;
+        }
+        input[type="text"] {
+            flex: 1;
+            padding: 10px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+        button {
+            padding: 10px 20px;
+            border-radius: 6px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+        }
+    </style>
+</head>
+<body>
 
-<div class="container-fluid mt-4">
-    <div class="row">
-        <div class="col-md-12">
-            <div class="card">
-                <div class="card-header d-flex justify-content-between align-items-center">
-                    <?php if ($userType === 'nurse'): ?>
-                        <h3>Chat with <?php echo htmlspecialchars($chatRoom->clientFirstName . ' ' . $chatRoom->clientLastName); ?></h3>
-                        <span class="badge bg-info"><?php echo htmlspecialchars($chatRoom->problem ?? 'No problem specified'); ?></span>
-                    <?php else: ?>
-                        <h3>Chat with Nurse <?php echo htmlspecialchars($chatRoom->nurseFirstName . ' ' . $chatRoom->nurseLastName); ?></h3>
-                        <span class="badge bg-info"><?php echo htmlspecialchars($chatRoom->specialitiesGoodAt ?? 'General Care'); ?></span>
-                    <?php endif; ?>
-                    <a href="index.php?controller=chat&action=list" class="btn btn-secondary">Back to Chats</a>
-                </div>
-                <div class="card-body">
-                    <div class="chat-container" id="chat-container" style="height: 400px; overflow-y: auto; margin-bottom: 20px; border: 1px solid #ccc; padding: 15px;">
-                        <?php if (empty($chatRoom->messagesArray)): ?>
-                            <div class="text-center text-muted">
-                                <p>No messages yet. Start the conversation!</p>
-                            </div>
-                        <?php else: ?>
-                            <?php foreach ($chatRoom->messagesArray as $msg): ?>
-                                <div class="message-wrapper <?php echo ($msg['sender_id'] == $userId) ? 'text-end' : 'text-start'; ?> mb-2">
-                                    <div class="message <?php echo ($msg['sender_id'] == $userId) ? 'sent' : 'received'; ?>"
-                                         style="display: inline-block; max-width: 70%; padding: 10px; border-radius: 10px; 
-                                                background-color: <?php echo ($msg['sender_id'] == $userId) ? '#dcf8c6' : '#f1f0f0'; ?>">
-                                        <div class="message-content">
-                                            <?php echo htmlspecialchars($msg['message']); ?>
-                                        </div>
-                                        <div class="message-timestamp" style="font-size: 0.7rem; color: #999; text-align: right;">
-                                            <?php echo date('H:i', strtotime($msg['timestamp'])); ?>
-                                        </div>
-                                    </div>
-                                </div>
-                            <?php endforeach; ?>
-                        <?php endif; ?>
-                    </div>
+<div class="chat-container">
+    <h2>Chat with 
+        <?php
+        if ($_SESSION['user_type'] === 'nurse') {
+            echo $chatRoom->clientFirstName . ' ' . $chatRoom->clientLastName;
+        } else {
+            echo $chatRoom->nurseFirstName . ' ' . $chatRoom->nurseLastName;
+        }
+        ?>
+    </h2>
 
-                    <form id="message-form" class="d-flex">
-                        <input type="hidden" id="chatRoomId" value="<?php echo $chatRoom->chatRoomId; ?>">
-                        <input type="hidden" id="userId" value="<?php echo $userId; ?>">
-                        <input type="hidden" id="lastMessageId" value="<?php echo !empty($chatRoom->messagesArray) ? end($chatRoom->messagesArray)['msg_id'] : 0; ?>">
-                        <input type="text" id="message-input" class="form-control me-2" placeholder="Type your message..." required>
-                        <button type="submit" class="btn btn-primary">Send</button>
-                    </form>
-                </div>
+    <div class="message-list">
+        <?php foreach ($chatRoom->messagesArray as $msg): ?>
+            <div class="message <?= $msg['sender_id'] == $userId ? 'from-me' : 'from-them' ?>">
+                <?= htmlspecialchars($msg['message']) ?>
+                <div class="timestamp"><?= $msg['timestamp'] ?></div>
             </div>
-        </div>
+        <?php endforeach; ?>
     </div>
+
+    <form action="index.php?controller=chat&action=sendMessage" method="POST">
+        <input type="hidden" name="chatRoomId" value="<?= $chatRoom->chatRoomId ?>">
+        <input type="text" name="message" placeholder="Type a message..." required>
+        <button type="submit">Send</button>
+    </form>
 </div>
 
-<script src="NurseProject/Views/javascript/chat.js"></script>
-<?php include_once "NurseProject/Views/chat/footer.php"; ?>
+</body>
+</html>
