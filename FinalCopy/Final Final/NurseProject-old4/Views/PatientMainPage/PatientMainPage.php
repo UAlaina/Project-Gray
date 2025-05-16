@@ -23,7 +23,7 @@ if (session_status() === PHP_SESSION_NONE) {
             <input type="text" id="search" placeholder="Search nurse by name" />
         </div>
         <nav>
-            <a href="index.php?controller=chat&action=list">Chat</a>
+            <a href="#">Chat</a>
             <a href="/NurseProject/Views/Payment/Payment.php">Payment</a>
             <!-- <a href="/NurseProject/Views/PaymentHistory/history.php">Payment History</a> -->
             <div class="profile-icon" id="profileIcon">
