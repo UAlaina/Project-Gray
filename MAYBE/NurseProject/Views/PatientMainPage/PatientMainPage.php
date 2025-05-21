@@ -35,7 +35,8 @@ if (!isset($_SESSION['user_id'])) {
                 <img src="/NurseProject/Views/images/icon.jpg" alt="Profile" />
                 <div class="dropdown-menu" id="dropdownMenu">
                     <a href="<?php echo $basePath; ?>/patient/login">Logout</a>
-                    <a href="<?php echo $basePath; ?>/patient/editProfile">Edit Profile</a>                </div>
+                    <a href="<?php echo $basePath; ?>/patient/editProfile">Edit Profile</a>                
+                </div>
             </div>
         </nav>
     </header>

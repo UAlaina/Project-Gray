@@ -103,7 +103,5 @@ public static function getPaymentHistory($patientID) {
 
     return $payments;
 }
-
-
 }
 ?>

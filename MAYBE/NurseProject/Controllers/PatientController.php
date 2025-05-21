@@ -85,7 +85,7 @@ class PatientController extends Controller {
                 break;
 
                 case 'forgotPassword':
-                    $this->render('forgotPass', 'forgotPass'); // Adjust folder/file names if needed
+                    $this->render('forgotPass', 'forgotPass'); 
                     break;
 
                 case "form":
@@ -107,9 +107,9 @@ class PatientController extends Controller {
                     $success = Payment::insert($paymentData);
 
                     if ($success) {
-                        $_SESSION['success'] = "✅ Payment successful.";
+                        $_SESSION['success'] = "Payment successful.";
                     } else {
-                        $_SESSION['error'] = "❌ Failed to process payment.";
+                        $_SESSION['error'] = "Failed to process payment.";
                     }
 
                     header("Location: /NurseProject/patient/mainpage");

@@ -6,26 +6,21 @@ document.addEventListener("DOMContentLoaded", function () {
     const cards = document.querySelectorAll(".patient-card");
     const noResultsMsg = document.getElementById("noNursesMsg");
     const body = document.body;
-    
-    // Reviews modal elements and functionality
+
     const reviewsBtn = document.getElementById('reviewsBtn');
     const reviewsModal = document.getElementById('reviewsModal');
     const closeBtn = document.querySelector('.close');
-    
-    // Check if we have all the elements needed for the reviews modal
+
     if (reviewsBtn && reviewsModal && closeBtn) {
-        // Show modal when reviews button is clicked
         reviewsBtn.addEventListener('click', function(e) {
-            e.preventDefault(); // Prevent default link behavior
+            e.preventDefault(); 
             reviewsModal.style.display = 'block';
         });
-        
-        // Close modal when X is clicked
+
         closeBtn.addEventListener('click', function() {
             reviewsModal.style.display = 'none';
         });
-        
-        // Close modal when clicking outside the modal content
+
         window.addEventListener('click', function(event) {
             if (event.target == reviewsModal) {
                 reviewsModal.style.display = 'none';
@@ -35,7 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
         console.error("Reviews modal elements not found");
     }
 
-    // Profile dropdown functionality
     if (profileIcon && dropdownMenu) {
         profileIcon.addEventListener('click', function (event) {
             event.stopPropagation();
@@ -49,7 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Dark mode toggle
     if (darkModeButton) {
         darkModeButton.addEventListener("click", function () {
             body.classList.toggle("dark-mode-active");
@@ -57,7 +50,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Search functionality
     if (searchInput) {
         searchInput.addEventListener("input", function () {
             const query = searchInput.value.toLowerCase().trim();
@@ -84,14 +76,12 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
     }
-    
-    // Patient card click event - supports both URL formats
+
     const patientCards = document.querySelectorAll(".patient-card");
     patientCards.forEach(card => {
         card.addEventListener("click", () => {
             const name = card.getAttribute("data-name");
             if (name) {
-                // Detect if we're using modern routing or traditional query parameters
                 const usingModernRouting = document.querySelector('a[href*="/NurseProject/"]') !== null;
                 
                 if (usingModernRouting) {

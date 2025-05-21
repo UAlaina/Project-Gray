@@ -44,21 +44,6 @@ class Nurse extends Model {
         $this->info = $param->info ?? '';
     }
 
-    // public static function list() {
-    //     $list = [];
-    //     $sql = "SELECT * FROM `nurse`";
-
-    //     $connection = Model::connect();
-    //     $result = $connection->query($sql);
-
-    //     while ($row = $result->fetch_object()) {
-    //         $nurse = new Nurse($row);
-    //         array_push($list, $$nurse);
-    //     }
-
-    //     return $list;
-    // }
-
     public static function getPatients($includeUserDetails = false) {
         $conn = Model::connect();
         $sql = $includeUserDetails ?
@@ -85,131 +70,120 @@ class Nurse extends Model {
         return $result->fetch_object() ?: null;
     }
 
-public static function register($data) {
-    $conn = Model::connect();
+    public static function register($data) {
+        $conn = Model::connect();
 
-    $required = ['email', 'password', 'firstName', 'lastName', 'zipCode', 'gender', 'description', 'DOB', 'licenseNumber', 'schedule', 'yearsExperience', 'cardName'];
-    foreach ($required as $field) {
-        if (!isset($data[$field]) || trim((string)$data[$field]) === '') {
-            return "The field '$field' is required.";
+        $required = ['email', 'password', 'firstName', 'lastName', 'zipCode', 'gender', 'description', 'DOB', 'licenseNumber', 'schedule', 'yearsExperience', 'cardName'];
+        foreach ($required as $field) {
+            if (!isset($data[$field]) || trim((string)$data[$field]) === '') {
+                return "The field '$field' is required.";
+            }
         }
-    }
 
-    // Email validation
-    if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
-        return "Invalid email address.";
-    }
-
-    // Name validations - letters only
-    if (!preg_match("/^[A-Za-z\s'-]+$/", $data['firstName'])) {
-        return "First name must contain only letters.";
-    }
-
-    if (!preg_match("/^[A-Za-z\s'-]+$/", $data['lastName'])) {
-        return "Last name must contain only letters.";
-    }
-
-    if (!preg_match("/^[A-Za-z\s'-]+$/", $data['cardName'])) {
-        return "Name on the card must contain only letters.";
-    }
-
-    // Description validation - must contain at least one letter
-    if (!preg_match("/[A-Za-z]+/", $data['description'])) {
-        return "Description must contain at least one letter.";
-    }
-
-    // Password validation - minimum 8 characters
-    if (strlen($data['password']) < 8) {
-        return "Password must be at least 8 characters.";
-    }
-
-    // Years of experience validation - number between 4 and 60
-    if (!is_numeric($data['yearsExperience']) || $data['yearsExperience'] < 4 || $data['yearsExperience'] > 60) {
-        return "Years of experience must be between 4 and 60.";
-    }
-
-    // Date of birth validation - not in future and at least 18 years old
-    $dob = strtotime($data['DOB']);
-    if ($dob === false || $dob > time()) {
-        return "Invalid date of birth.";
-    }
-    $age = date('Y') - date('Y', $dob);
-    if ($age < 18) {
-        return "You must be at least 18 years old to register.";
-    }
-
-    // ZIP Code validation - Canadian postal code format
-    if (!preg_match("/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/", $data['zipCode'])) {
-        return "Invalid ZIP code. Must be in Canadian format (e.g., A1B 2C3).";
-    }
-
-    // Card number validation - 16 digits
-    if (isset($data['cardNumber']) && !preg_match("/^\d{16}$/", preg_replace('/\s+/', '', $data['cardNumber']))) {
-        return "Card number must be 16 digits.";
-    }
-
-    // CVV validation - 3 digits
-    if (isset($data['cvv']) && !preg_match("/^\d{3}$/", $data['cvv'])) {
-        return "CVV must be 3 digits.";
-    }
-
-    // Expiry date validation
-    if (isset($data['expireDate'])) {
-        $expDate = $data['expireDate'];
-        if (!preg_match("/^(0[1-9]|1[0-2])\/\d{2}$/", $expDate)) {
-            return "Expire date must be in MM/YY format.";
+        if (!filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+            return "Invalid email address.";
         }
-        
-        list($month, $year) = explode('/', $expDate);
-        $expiry = mktime(0, 0, 0, $month + 1, 0, 2000 + intval($year));
-        if ($expiry < time()) {
-            return "Card has expired.";
+
+        if (!preg_match("/^[A-Za-z\s'-]+$/", $data['firstName'])) {
+            return "First name must contain only letters.";
         }
+
+        if (!preg_match("/^[A-Za-z\s'-]+$/", $data['lastName'])) {
+            return "Last name must contain only letters.";
+        }
+
+        if (!preg_match("/^[A-Za-z\s'-]+$/", $data['cardName'])) {
+            return "Name on the card must contain only letters.";
+        }
+
+        if (!preg_match("/[A-Za-z]+/", $data['description'])) {
+            return "Description must contain at least one letter.";
+        }
+
+        if (strlen($data['password']) < 8) {
+            return "Password must be at least 8 characters.";
+        }
+
+        if (!is_numeric($data['yearsExperience']) || $data['yearsExperience'] < 4 || $data['yearsExperience'] > 60) {
+            return "Years of experience must be between 4 and 60.";
+        }
+
+        $dob = strtotime($data['DOB']);
+        if ($dob === false || $dob > time()) {
+            return "Invalid date of birth.";
+        }
+        $age = date('Y') - date('Y', $dob);
+        if ($age < 18) {
+            return "You must be at least 18 years old to register.";
+        }
+
+        if (!preg_match("/^[A-Za-z]\d[A-Za-z][ -]?\d[A-Za-z]\d$/", $data['zipCode'])) {
+            return "Invalid ZIP code. Must be in Canadian format (e.g., A1B 2C3).";
+        }
+
+        if (isset($data['cardNumber']) && !preg_match("/^\d{16}$/", preg_replace('/\s+/', '', $data['cardNumber']))) {
+            return "Card number must be 16 digits.";
+        }
+
+        if (isset($data['cvv']) && !preg_match("/^\d{3}$/", $data['cvv'])) {
+            return "CVV must be 3 digits.";
+        }
+
+        if (isset($data['expireDate'])) {
+            $expDate = $data['expireDate'];
+            if (!preg_match("/^(0[1-9]|1[0-2])\/\d{2}$/", $expDate)) {
+                return "Expire date must be in MM/YY format.";
+            }
+            
+            list($month, $year) = explode('/', $expDate);
+            $expiry = mktime(0, 0, 0, $month + 1, 0, 2000 + intval($year));
+            if ($expiry < time()) {
+                return "Card has expired.";
+            }
+        }
+
+        $stmt = $conn->prepare("
+            INSERT INTO users (email, password, firstName, lastName, zipCode, gender, createdAt, updatedAt, DOB)
+            VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), ?)
+            ");
+        if (!$stmt) return "Database error (users): " . $conn->error;
+
+        $hashedPassword = sha1($data['password']);
+        $stmt->bind_param("sssssss",
+            $data['email'],
+            $hashedPassword,
+            $data['firstName'],
+            $data['lastName'],
+            $data['zipCode'],
+            $data['gender'],
+            $data['DOB']
+        );
+
+        if (!$stmt->execute()) return "Failed to save user: " . $stmt->error;
+
+        $user_id = $conn->insert_id;
+
+        $stmt2 = $conn->prepare("
+            INSERT INTO nurse (
+                NurseID, licenseNumber, registrationFee, schedule,
+                specialitiesGoodAt, clientHistory, feedbackReceived,
+                rating, years_experience, info
+                ) VALUES (?, ?, 0, ?, 'General Care', '', '', 0, ?, ?)
+            ");
+        if (!$stmt2) return "Database error (nurse): " . $conn->error;
+
+        $stmt2->bind_param("issis",
+            $user_id,
+            $data['licenseNumber'],
+            $data['schedule'],
+            $data['yearsExperience'],
+            $data['description']
+        );
+
+        if (!$stmt2->execute()) return "Failed to save nurse info: " . $stmt2->error;
+
+        return true;
     }
-
-    // Proceed with user registration
-    $stmt = $conn->prepare("
-        INSERT INTO users (email, password, firstName, lastName, zipCode, gender, createdAt, updatedAt, DOB)
-        VALUES (?, ?, ?, ?, ?, ?, NOW(), NOW(), ?)
-    ");
-    if (!$stmt) return "Database error (users): " . $conn->error;
-
-    $hashedPassword = sha1($data['password']);
-    $stmt->bind_param("sssssss",
-        $data['email'],
-        $hashedPassword,
-        $data['firstName'],
-        $data['lastName'],
-        $data['zipCode'],
-        $data['gender'],
-        $data['DOB']
-    );
-
-    if (!$stmt->execute()) return "Failed to save user: " . $stmt->error;
-
-    $user_id = $conn->insert_id;
-
-    $stmt2 = $conn->prepare("
-        INSERT INTO nurse (
-            NurseID, licenseNumber, registrationFee, schedule,
-            specialitiesGoodAt, clientHistory, feedbackReceived,
-            rating, years_experience, info
-        ) VALUES (?, ?, 0, ?, 'General Care', '', '', 0, ?, ?)
-    ");
-    if (!$stmt2) return "Database error (nurse): " . $conn->error;
-
-    $stmt2->bind_param("issis",
-        $user_id,
-        $data['licenseNumber'],
-        $data['schedule'],
-        $data['yearsExperience'],
-        $data['description']
-    );
-
-    if (!$stmt2->execute()) return "Failed to save nurse info: " . $stmt2->error;
-
-    return true;
-}
 
 
     public static function authenticate($email, $password) {

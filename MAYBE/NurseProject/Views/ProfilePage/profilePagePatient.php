@@ -27,7 +27,6 @@ function displayStars($rating) {
     return $stars . ' <span class="rating-number">' . number_format($rating, 1) . '</span>';
 }
 
-// Ensure profile data exists
 if (!isset($profileData)) {
     die("Error: No profile data available.");
 }

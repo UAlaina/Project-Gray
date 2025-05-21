@@ -107,15 +107,6 @@ input[type="text"]:focus {
     font-size: 14px;
 }
 
-.remember-me {
-    display: flex;
-    align-items: center;
-}
-
-.remember-me input {
-    margin-right: 5px;
-}
-
 .forgot-password {
     color: #0066cc;
     text-decoration: none;

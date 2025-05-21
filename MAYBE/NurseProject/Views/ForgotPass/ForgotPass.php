@@ -11,7 +11,6 @@ $message = '';
 if (isset($_POST['forgot'])) {
     $email = $_POST['email'];
 
-    // Database connection
     $conn = new mysqli("localhost", "root", "", "nurserysystem");
     if ($conn->connect_error) {
         die("Connection failed: " . $conn->connect_error);
@@ -29,32 +28,29 @@ if (isset($_POST['forgot'])) {
         $mail = new PHPMailer(true);
 
         try {
-            // Server settings
             $mail->isSMTP();
             $mail->Host       = 'smtp.gmail.com';  
             $mail->SMTPAuth   = true;
             $mail->Username   = 'nurserywebsystem@gmail.com';  
-            $mail->Password   = 'jfxn wtck joja jwqm';  // Use the generated app password from Google
+            $mail->Password   = 'jfxn wtck joja jwqm';  
             $mail->SMTPSecure = 'tls';  
             $mail->Port       = 587;
 
             $mail->setFrom('nurserywebsystem@gmail.com', 'Nursery App System');
-            $mail->addAddress($email);  // Add the recipient's email address
+            $mail->addAddress($email);  
             $mail->Subject = 'Password Recovery';
             $mail->Body    = "Hello,\n\nYour password is: $password\n\n- Nursery App System";
 
-            // Send the email
             $mail->send();
-            $message = "✅ Password sent to your email!";
+            $message = "Password sent to your email!";
         } catch (Exception $e) {
-            $message = "❌ Mail Error: {$mail->ErrorInfo}";
+            $message = "Mail Error: {$mail->ErrorInfo}";
         }
 
     } else {
-        $message = "❌ Email not found.";
+        $message = "Email not found.";
     }
 
-    // Close database connection
     $stmt->close();
     $conn->close();
 }

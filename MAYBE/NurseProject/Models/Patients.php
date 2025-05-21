@@ -91,20 +91,6 @@ class Patients extends Model {
         return null;
     }
 
-    // public static function getProfileDetails($id) {
-    //     $conn = Model::connect();
-    //     $stmt = $conn->prepare("
-    //         SELECT u.firstName, u.lastName, u.email, u.zipCode, u.gender, n.years_experience, n.specialitiesGoodAt 
-    //         FROM users u
-    //         LEFT JOIN nurse n ON u.id = n.NurseID
-    //         WHERE u.id = ?
-    //     ");
-    //     $stmt->bind_param("i", $id);
-    //     $stmt->execute();
-    //     $result = $stmt->get_result();
-    //     return $result->fetch_object() ?: null;
-    // }
-
     public static function getPatientByName($name) {
         $conn = Model::connect();
         $nameParts = explode(' ', $name);
@@ -183,7 +169,6 @@ class Patients extends Model {
         return $result->fetch_assoc();
     }
 
-    // Helper function to format profile data
     public static function formatProfileData($profile) {
         if (is_object($profile)) {
             $profileData = [];
@@ -210,9 +195,6 @@ class Patients extends Model {
         $result = $stmt->get_result();
         
         if ($row = $result->fetch_assoc()) {
-            // error_log("Retrieved patient data: " . print_r($row, true));
-            // error_log("Problem field: " . ($row['problem'] ?? 'Not found'));
-
             return $row;
         }
         
@@ -276,7 +258,7 @@ class Patients extends Model {
             return true;
         } catch (Exception $e) {
             $conn->rollback();
-            $_SESSION['error_message'] = "❌ Deletion failed: " . $e->getMessage();
+            $_SESSION['error_message'] = "Deletion failed: " . $e->getMessage();
             return false;
         }
 

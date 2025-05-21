@@ -154,7 +154,6 @@ body {
     opacity: 0.9;
 }
 
-/* Responsive adjustments */
 @media (max-width: 768px) {
     .profile-header {
         flex-direction: column;
@@ -184,7 +183,6 @@ body {
     }
 }
 
-/* Star rating styles */
 .stars {
     margin-top: 10px;
     font-size: 18px;
@@ -225,7 +223,6 @@ body {
     font-size: 14px;
 }
 
-/* Reviews section */
 .reviews-section {
     margin-top: 20px;
     border-top: 1px solid #eee;

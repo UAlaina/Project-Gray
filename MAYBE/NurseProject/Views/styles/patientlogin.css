@@ -71,7 +71,7 @@ input[type="text"]:focus {
 
 .password-field input {
     width: 100%;
-    padding-right: 40px; /* Make room for the eye icon */
+    padding-right: 40px; 
 }
 
 #togglePassword {

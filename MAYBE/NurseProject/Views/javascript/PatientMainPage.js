@@ -6,13 +6,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const cards = document.querySelectorAll(".nurse-card");
     const noResultsMsg = document.getElementById("noNursesMsg");
     const body = document.body;
-    
-    // Reviews modal elements
+
     const reviewsBtn = document.getElementById('reviewsBtn');
     const reviewsModal = document.getElementById('reviewsModal');
     const closeBtn = document.querySelector('.close');
-    
-    // Reviews modal functionality
+
     if (reviewsBtn && reviewsModal && closeBtn) {
         reviewsBtn.addEventListener('click', function() {
             reviewsModal.style.display = 'block';
@@ -70,7 +68,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Add click event to nurse cards
     const nurseCards = document.querySelectorAll(".nurse-card");
     nurseCards.forEach(card => {
         card.addEventListener("click", () => {

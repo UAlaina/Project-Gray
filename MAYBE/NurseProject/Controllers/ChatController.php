@@ -30,11 +30,6 @@ class ChatController extends Controller {
             break;
 
             case "view":
-               /* echo "<pre>";
-    echo "chatRoomId: " . $chatRoomId . "\n";
-    echo "userId: " . $userId . "\n";
-    var_dump($_GET);
-    exit();*/
             if ($chatRoomId > 0) {
                 
                 $userId = $_SESSION['user_id'];
@@ -58,20 +53,6 @@ class ChatController extends Controller {
             }
             break;
 
-            // case "create":
-            //     if ($_SESSION['user_type'] === 'patient') {
-            //         $nurses = Nurse::list();
-            //         $this->render("Chat", "createChat", ["nurses" => $nurses]);
-            //     } elseif ($_SESSION['user_type'] === 'nurse') {
-            //         $patients = Nurse::getPatients(true);
-            //         $this->render("Chat", "createChat", ["patients" => $patients]);
-            //     } else {
-            //         $_SESSION['error'] = "Unauthorized access.";
-            //         header("Location: http://localhost/NurseProject/index.php");
-            //         exit();
-            //     }
-            //     break;
-
             case "startChat":
             if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $clientId = isset($_POST['clientId']) ? intval($_POST['clientId']) : 0;
@@ -81,14 +62,12 @@ class ChatController extends Controller {
                 $userId = $_SESSION['user_id'];
                 $userType = $_SESSION['user_type'];
 
-        // Override based on who is logged in
                 if ($userType === 'patient') {
                     $clientId = $userId;
                 } elseif ($userType === 'nurse') {
                     $nurseId = $userId;
                 }
 
-        // DEBUGGING OUTPUT
                 echo "<pre>";
                 echo "clientId: $clientId\n";
                 echo "nurseId: $nurseId\n";
@@ -101,18 +80,15 @@ class ChatController extends Controller {
                 echo "</pre>";
 
                 if ($chatRoomId) {
-                    echo "✅ Redirecting to chat room...";
+                    echo "Redirecting to chat room...";
                     header("Location: /NurseProject/chat/" . $chatRoomId);                    
                     exit();
                 } else {
-                    echo "❌ Failed to create chat room.";
+                    echo "Failed to create chat room.";
                     exit();
                 }
             }
             break;
-
-
-
 
             case "sendMessage":
             if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['chatRoomId'])) {

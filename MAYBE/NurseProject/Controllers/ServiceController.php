@@ -42,12 +42,10 @@ class ServiceController extends Controller {
     $patientId = intval($_GET['id'] ?? 0);
 
     if ($patientId <= 0) {
-        echo "<p style='color:red;'>❌ Invalid patient ID for service form.</p>";
+        echo "<p style='color:red;'>Invalid patient ID for service form.</p>";
         return;
     }
 
-    // Optional: fetch patient data from a model (e.g., Patient::getById($patientId))
-    // For now, just pass the ID to the view
     $this->render("ServiceForm", "servicePopUp", ["patientId" => $patientId]);
     
 }
@@ -56,9 +54,9 @@ class ServiceController extends Controller {
         $result = ServiceForm::submitForm($_POST);
 
         if ($result['success']) {
-            echo "<p>✅ Form submitted to database successfully.</p>";
-            echo "<p>📧 Preparing to send email to: <strong>{$result['email']}</strong></p>";
-            echo "<p>🔑 Service Code: <strong>{$result['serviceCode']}</strong></p>";
+            echo "<p>Form submitted to database successfully.</p>";
+            echo "<p>Preparing to send email to: <strong>{$result['email']}</strong></p>";
+            echo "<p>Service Code: <strong>{$result['serviceCode']}</strong></p>";
 
             $email = new NotificationMailer();
 
@@ -76,15 +74,15 @@ class ServiceController extends Controller {
             $sent = $email->sendEmail($result['email'], 'Your Service Code', $emailBody);
 
             if ($sent) {
-                echo "<p>✅ Email sent successfully!</p>";
+                echo "<p>Email sent successfully!</p>";
             } else {
-                echo "<p>❌ Failed to send email.</p>";
+                echo "<p>Failed to send email.</p>";
             }
 
             echo "<p><a href='/NurseProject/default/home'>Click here to go to confirmation page</a></p>";
             
         } else {
-            echo "<p>❌ Failed to submit form to database.</p>";
+            echo "<p>Failed to submit form to database.</p>";
             echo "<p><strong>Error:</strong> " . htmlspecialchars($result['error']) . "</p>";
             echo "<p><a href='javascript:history.back()'>Go back and try again</a></p>";
         }

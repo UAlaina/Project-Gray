@@ -160,13 +160,13 @@ class Chat extends Model {
         $stmt->bind_param("iisss", $clientId, $nurseId, $createAt, $emptyMessages, $serviceCode);
 
         if (!$stmt) {
-            die("❌ SQL prepare failed: " . $conn->error);
+            die("SQL prepare failed: " . $conn->error);
         }
 
         if ($stmt->execute()) {
             return $conn->insert_id;
         } else {
-            die("❌ MySQL execution error: " . $stmt->error);
+            die("MySQL execution error: " . $stmt->error);
         }
 
     }

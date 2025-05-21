@@ -20,7 +20,6 @@ $mainContent = isset($featuredContent['mainContent']) ? $featuredContent['mainCo
     <header>
       <div class="logo-placeholder"></div>
       <div class="top-nav">
-        <!-- <a href="<?php echo $basePath; ?>/Views/NurseRegistration/nurseRegistration.php">Career</a> -->
         <a href="<?php echo $basePath; ?>/nurse/register">Career</a>
         <button class="login-btn" onclick="window.location.href='<?php echo $basePath; ?>/patient/login'">Login</button>
       </div>
@@ -36,24 +35,7 @@ $mainContent = isset($featuredContent['mainContent']) ? $featuredContent['mainCo
           <p class="main-content"><?php echo htmlspecialchars($mainContent); ?></p>
         <?php endif; ?>
         <button class="get-started-btn" onclick="window.location.href='<?php echo $basePath; ?>/patient/login'">Get Started</button>
-        <!-- <a href="<?php echo dirname($path);?>../../Views/PatientLogin/patientLogin,php"><input type="button" name="" value="Login"/></a> -->
       </section>
-      
-      <!-- <?php if (!empty($services)): ?>
-      <section class="services">
-        <h2>Our Services</h2>
-        <div class="services-grid">
-          <?php foreach ($services as $service): ?>
-            <div class="service-card">
-              <h3><?php echo htmlspecialchars($service['name']); ?></h3>
-              <p><?php echo htmlspecialchars($service['description']); ?></p>
-              <a href="<?php echo $basePath; ?>/default/services" class="learn-more">Learn More</a>
-            </div>
-          <?php endforeach; ?>
-        </div>
-      </section>
-      <?php endif; ?>
-    </main> -->
   </div>
 </body>
 </html>

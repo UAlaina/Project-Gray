@@ -1,6 +1,6 @@
 <?php
 $PATH = $_SERVER['SCRIPT_NAME'];
-$payments = $payments ?? []; // prevent undefined variable
+$payments = $payments ?? []; 
 ?>
 
 <pre>

@@ -68,7 +68,6 @@ class ServiceForm extends Model {
             return ['success' => false, 'error' => 'Nurse not logged in.'];
         }
 
-        // Generating 5-character service code with letters only
         $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
         $serviceCode = '';
         for ($i = 0; $i < 5; $i++) {

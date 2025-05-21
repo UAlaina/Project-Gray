@@ -20,7 +20,7 @@ if ($nurseId > 0) {
 }
 
 if ($recipientId === 0) {
-    echo "<p style='color:red; font-weight:bold;'>❌ Invalid recipient ID — please access this page from a profile.</p>";
+    echo "<p style='color:red; font-weight:bold;'>Invalid recipient ID — please access this page from a profile.</p>";
     exit();
 }
 ?>
@@ -46,7 +46,6 @@ if ($recipientId === 0) {
             <input type="hidden" name="patientId" value="<?php echo $recipientId; ?>">
         <?php endif; ?>
 
-        <!-- ✅ Pass user_id in case session is lost -->
         <input type="hidden" name="clientId" value="<?php echo $_SESSION['user_id'] ?? 0; ?>">
 
         <div class="form-group">

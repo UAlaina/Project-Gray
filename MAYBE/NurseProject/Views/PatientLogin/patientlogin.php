@@ -36,10 +36,6 @@ $basePath = '/NurseProject';
                 </div>
 
                 <div class="form-options">
-                    <div class="remember-me">
-                        <input type="checkbox" id="rememberMe" name="rememberMe">
-                        <label for="rememberMe">Remember me</label>
-                    </div>
                     <a href="/NurseProject/forgot-password" class="forgot-password">Forgot Password?</a>
                 </div>
 

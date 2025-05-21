@@ -16,7 +16,6 @@ $basePath = '/NurseProject';
     <div class="container">
         <div class="login-container">
             <h1>Nurse Login</h1>
-            <!-- <form action="/NurseProject/nurse/mainpage" method="POST"> -->
             <form action="<?php echo $basePath; ?>/nurse/login" method="POST">
                 <div class="form-group">
                     <label for="email">Email Address</label>
@@ -39,10 +38,6 @@ $basePath = '/NurseProject';
                 </div>
                 
                 <div class="form-options">
-                    <div class="remember-me">
-                        <input type="checkbox" id="rememberMe" name="rememberMe">
-                        <label for="rememberMe">Remember me</label>
-                    </div>
                    <a href="/NurseProject/forgot-password" class="forgot-password">Forgot Password?</a>
                 </div>
                 

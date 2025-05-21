@@ -272,7 +272,6 @@ footer .copyright {
     border: 1px solid #ccc;
 }
 
-/* Modal Styles */
 .modal {
     display: none;
     position: fixed;
@@ -311,7 +310,6 @@ footer .copyright {
     text-decoration: none;
 }
 
-/* Star rating styles */
 .stars {
     margin-top: 10px;
     font-size: 18px;
@@ -352,7 +350,6 @@ footer .copyright {
     font-size: 14px;
 }
 
-/* Reviews list styles */
 .reviews-container {
     margin-top: 20px;
 }
