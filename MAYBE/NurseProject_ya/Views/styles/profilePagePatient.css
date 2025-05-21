@@ -1,0 +1,282 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f8ff;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+}
+
+.profile-container {
+    width: 100%;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.header {
+    background-color: #a3d5ff;
+    color: #333;
+    padding: 15px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.header .back-btn {
+    margin-right: 10px;
+    cursor: pointer;
+    font-size: 20px;
+}
+
+.profile-content {
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.profile-header {
+    display: flex;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+}
+
+.profile-image {
+    width: 150px;
+    height: 150px;
+    background-color: #ddd;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 40px;
+    margin-bottom: 20px;
+}
+
+.profile-image svg {
+    width: 80px;
+    height: 80px;
+    color: #777;
+}
+
+.profile-details {
+    flex: 1;
+    min-width: 300px;
+}
+
+.detail-row {
+    display: flex;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+}
+
+.detail-item {
+    flex: 1;
+    margin-right: 30px;
+    min-width: 200px;
+    margin-bottom: 15px;
+}
+
+.detail-item label {
+    font-weight: bold;
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-size: 14px;
+}
+
+.detail-item span {
+    font-size: 16px;
+}
+
+.stars {
+    margin-top: 15px;
+}
+
+.star {
+    color: #ccc;
+    font-size: 24px;
+}
+
+.star.filled {
+    color: #ffc107;
+}
+
+.description-section {
+    margin-top: 30px;
+}
+
+.description-section h3 {
+    font-size: 20px;
+    margin-bottom: 15px;
+    color: #333;
+}
+
+.description-box {
+    background-color: #f5f5f5;
+    padding: 25px;
+    border-radius: 4px;
+    min-height: 120px;
+    line-height: 1.6;
+}
+
+.actions {
+    margin-top: 40px;
+}
+
+.action-row {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+    margin-left: 15px;
+}
+
+.btn-primary {
+    background-color: #1e90ff;
+    color: white;
+}
+
+.btn-secondary {
+    background-color: #4fc3f7;
+    color: white;
+}
+
+.btn:hover {
+    opacity: 0.9;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .profile-header {
+        flex-direction: column;
+    }
+    
+    .profile-image {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+    
+    .detail-row {
+        flex-direction: column;
+    }
+    
+    .detail-item {
+        margin-right: 0;
+    }
+    
+    .action-row {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .btn {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+}
+
+/* Star rating styles */
+.stars {
+    margin-top: 10px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+}
+
+.star {
+    color: #ddd;
+    margin-right: 2px;
+}
+
+.star.filled {
+    color: #ffcc00;
+}
+
+.star.half-filled {
+    position: relative;
+    color: #ddd;
+}
+
+.star.half-filled:before {
+    content: '★';
+    position: absolute;
+    color: #ffcc00;
+    width: 50%;
+    overflow: hidden;
+}
+
+.rating-number {
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.review-count {
+    margin-left: 8px;
+    color: #666;
+    font-size: 14px;
+}
+
+/* Reviews section */
+.reviews-section {
+    margin-top: 20px;
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.reviews-section h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+}
+
+.reviews-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.review-item {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.reviewer-name {
+    font-weight: bold;
+}
+
+.review-date {
+    color: #777;
+    font-size: 14px;
+}
+
+.review-stars {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.review-text {
+    color: #333;
+    line-height: 1.5;
+}
+
+.no-reviews {
+    color: #777;
+    font-style: italic;
+}
+
+

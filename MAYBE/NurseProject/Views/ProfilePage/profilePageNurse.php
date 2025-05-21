@@ -1,13 +1,11 @@
 <?php
 include_once "Models/Feedback.php";
 
-// ✅ Ensure $profileData exists
 if (!isset($profileData)) {
-    echo "<p style='color:red;'>❌ No patient profile data found.</p>";
+    echo "<p style='color:red;'> No patient profile data found.</p>";
     return;
 }
 
-// ✅ Safe fallback for patientId
 $patientId = $profileData['id'] ?? $profileData['patientID'] ?? 0;
 ?>
 

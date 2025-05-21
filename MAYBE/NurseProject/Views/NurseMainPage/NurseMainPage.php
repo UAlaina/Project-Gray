@@ -4,6 +4,11 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 $basePath = '/NurseProject';
 
+if (!isset($_SESSION['user_id'])) {
+    header("Location: $basePath");
+    exit();
+}
+
 $successMsg = '';
 if (isset($_SESSION['success_message_reactivation'])) {
     $successMsg = $_SESSION['success_message_reactivation'];

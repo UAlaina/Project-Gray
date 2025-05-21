@@ -16,7 +16,8 @@ $basePath = '/NurseProject';
     <div class="container">
         <div class="login-container">
             <h1>Nurse Login</h1>
-            <form action="/NurseProject/nurse/mainpage" method="POST">
+            <!-- <form action="/NurseProject/nurse/mainpage" method="POST"> -->
+            <form action="<?php echo $basePath; ?>/nurse/login" method="POST">
                 <div class="form-group">
                     <label for="email">Email Address</label>
                     <input type="email" id="email" name="email" required>

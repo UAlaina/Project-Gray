@@ -1,5 +1,11 @@
 <?php
 $PATH = $_SERVER['SCRIPT_NAME'];
+$basePath = '/NurseProject';
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: $basePath");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>

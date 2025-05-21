@@ -1,7 +1,6 @@
 <?php
 $PATH = $_SERVER['SCRIPT_NAME'];
 $basePath = '/NurseProject';
-
 ?>
 <html lang="en">
 <head>
@@ -66,6 +65,6 @@ $basePath = '/NurseProject';
         </div>
     </div>
 
-    <script src="../../Views/javascript/nurse-login.js"></script>
+    <script src="/NurseProject/Views/javascript/nurse-login.js"></script>
 </body>
 </html>

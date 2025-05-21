@@ -1,7 +1,7 @@
 <?php
 $PATH = $_SERVER['SCRIPT_NAME'];
 
-$today = date('Y-m-d');  // current date in YYYY-MM-DD format
+$today = date('Y-m-d');
 
 ?>
 

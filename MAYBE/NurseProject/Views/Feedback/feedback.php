@@ -3,6 +3,8 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+$basePath = '/NurseProject';
+
 $nurseId = intval($_GET['nurseId'] ?? 0);
 $patientId = intval($_GET['patientId'] ?? 0);
 

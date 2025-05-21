@@ -3,6 +3,11 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 $basePath = '/NurseProject';
+
+if (!isset($_SESSION['user_id'])) {
+    header("Location: $basePath");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
