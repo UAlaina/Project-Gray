@@ -1,0 +1,409 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    background: white;
+    min-height: 100%;
+}
+
+.page-wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    position: relative;
+}
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #a3d5ff;
+    padding: 10px 30px;
+    height: 70px;
+}
+
+.left-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo {
+    width: 80px;
+    height: 75px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.logo img {
+    height: 30px;
+    transform: scale(2.8);
+    transform-origin: center center;
+    display: block;
+}
+
+#search {
+    padding: 8px 15px;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    width: 250px;
+    font-size: 14px;
+}
+
+nav {
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    align-items: center;
+}
+
+nav a {
+    text-decoration: none;
+    color: blue;
+    font-weight: bold;
+}
+
+.profile-icon {
+    position: relative;
+    cursor: pointer;
+    z-index: 1000;
+}
+
+.profile-icon img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background: #aaa;
+    width: 120px;
+    padding: 10px;
+    border-radius: 4px;
+    z-index: 1001;
+}
+
+.dropdown-menu a {
+    display: block;
+    color: white;
+    text-decoration: none;
+    padding: 5px;
+}
+
+.dropdown-menu a:hover {
+    background: #888;
+}
+
+main {
+    flex: 1;
+    padding: 30px 20px;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+main h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.nurse-card {
+    background: #dbeeff;
+    border-radius: 10px;
+    padding: 25px 20px;
+    text-align: left;
+    font-size: 13px;
+    max-width: 600px;
+    width: 90%;
+    cursor: pointer;
+}
+
+.nurse-card .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    font-size: 13px;
+}
+
+.nurse-card .info {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    font-weight: bold;
+}
+
+.nurse-card .icon {
+    width: 30px;
+    height: 30px;
+    background: #c2a7ff;
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    font-weight: bold;
+    font-size: 12px;
+}
+
+.nurse-card .about {
+    margin-top: 8px;
+    font-size: 12px;
+    font-style: italic;
+}
+
+.dark-mode {
+    position: absolute;
+    top: 110px;
+    left: 20px;
+    background: #a3d5ff;
+    border: 1px solid #444;
+    padding: 10px 16px;
+    cursor: pointer;
+    border-radius: 6px;
+    z-index: 1000;
+}
+
+footer {
+    background: white;
+    padding: 40px 40px 20px;
+    font-size: 14px;
+    margin-top: auto;
+}
+
+.footer-content {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.footer-links ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-links ul li a {
+    color: blue;
+    text-decoration: underline;
+}
+
+footer .copyright {
+    text-align: center;
+    width: 100%;
+    margin-top: 20px;
+    font-size: 13px;
+    color: #666;
+}
+
+.dark-mode-active,
+.dark-mode-active html,
+.dark-mode-active body,
+.dark-mode-active .page-wrapper {
+    background-color: #121212 !important;
+    color: white !important;
+    min-height: 100% !important;
+}
+
+.dark-mode-active .top-bar {
+    background: #1f2a40;
+}
+
+.dark-mode-active nav a {
+    color: #add8ff;
+}
+
+.dark-mode-active .dropdown-menu {
+    background-color: #333;
+    border: 1px solid #444;
+}
+
+.dark-mode-active .dropdown-menu a {
+    color: #eee;
+}
+
+.dark-mode-active .dropdown-menu a:hover {
+    background-color: #555;
+}
+
+.dark-mode-active .nurse-card {
+    background-color: #1e3a5f;
+    color: white;
+}
+
+.dark-mode-active .nurse-card .icon {
+    background-color: #6b5cff;
+    color: white;
+}
+
+.dark-mode-active .about {
+    color: #ccc;
+}
+
+.dark-mode-active footer {
+    background: #1f1f1f;
+    color: #bbb;
+}
+
+.dark-mode-active .footer-links ul li a {
+    color: #87cefa;
+}
+
+.dark-mode-active .dark-mode {
+    background: white;
+    color: black;
+    border: 1px solid #ccc;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10% auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    max-width: 600px;
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+}
+
+.stars {
+    margin-top: 10px;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+}
+
+.star {
+    color: #ddd;
+    margin-right: 2px;
+}
+
+.star.filled {
+    color: #ffcc00;
+}
+
+.star.half-filled {
+    position: relative;
+    color: #ddd;
+}
+
+.star.half-filled:before {
+    content: '★';
+    position: absolute;
+    color: #ffcc00;
+    width: 50%;
+    overflow: hidden;
+}
+
+.rating-number {
+    margin-left: 5px;
+    font-weight: bold;
+}
+
+.review-count {
+    margin-left: 8px;
+    color: #666;
+    font-size: 14px;
+}
+
+.reviews-container {
+    margin-top: 20px;
+}
+
+.rating-summary {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.reviews-list {
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.review-item {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.reviewer-name {
+    font-weight: bold;
+}
+
+.review-date {
+    color: #777;
+    font-size: 14px;
+}
+
+.review-stars {
+    margin-bottom: 10px;
+    font-size: 16px;
+}
+
+.review-text {
+    color: #333;
+    line-height: 1.5;
+}
+
+.no-reviews {
+    color: #777;
+    font-style: italic;
+    text-align: center;
+    padding: 15px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}

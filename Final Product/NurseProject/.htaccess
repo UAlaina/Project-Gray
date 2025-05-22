@@ -1,0 +1,30 @@
+RewriteEngine On
+RewriteBase /NurseProject/
+
+# Allow direct access to resources like CSS, JS, images, and Views folder
+RewriteCond %{REQUEST_FILENAME} -f [OR]
+RewriteCond %{REQUEST_FILENAME} -d
+RewriteRule ^ - [L]
+
+# Specific routes FIRST
+RewriteRule ^chat/start$ index.php?controller=chat&action=startChat [L]
+RewriteRule ^chat/view/([0-9]+)$ index.php?controller=chat&action=view&chatRoomId=$1 [L]
+RewriteRule ^chat/([0-9]+)$ index.php?controller=chat&action=view&chatRoomId=$1 [L]
+RewriteRule ^feedback/form/([0-9]+)$ index.php?controller=feedback&action=form&nurseId=$1 [L]
+RewriteRule ^payment/form$ index.php?controller=payment&action=form [L]
+RewriteRule ^payment/submit$ index.php?controller=payment&action=submit [L]
+RewriteRule ^payment/history$ index.php?controller=payment&action=history [L]
+RewriteRule ^service/form/([0-9]+)$ index.php?controller=service&action=form&id=$1 [L]
+RewriteRule ^service/form$ /NurseProject/Views/ServiceForm/serviceform.php [L]
+RewriteRule ^service/submit$ index.php?controller=service&action=submitServiceForm [L]
+RewriteRule ^forgot-password$ Views/ForgotPass/ForgotPass.php [L]
+
+
+# Generic fallback routes LAST
+RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/(.+)$ index.php?controller=$1&action=$2&name=$3 [L,QSA]
+RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/?$ index.php?controller=$1&action=$2 [L,QSA]
+RewriteRule ^([^/]+)/([^/]+)$ index.php?controller=$1&action=$2 [L,QSA]
+RewriteRule ^([a-zA-Z]+)/?$ index.php?controller=$1&action=list [L,QSA]
+RewriteRule ^([a-zA-Z]+)/([a-zA-Z]+)/([0-9]+)$ index.php?controller=$1&action=$2&id=$3 [L,QSA]
+
+

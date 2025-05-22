@@ -1,0 +1,128 @@
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+        margin: 0;
+        padding: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+    }
+
+    .container {
+        background-color: white;
+        max-width: 600px;
+        width: 100%;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+        border-radius: 8px;
+    }
+
+    h1 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        color: #0066cc;
+        text-align: center;
+    }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    input, textarea, select {
+        width: 100%;
+        padding: 12px;
+        border: 1px solid #aaa;
+        border-radius: 4px;
+        box-sizing: border-box;
+        background-color: #f0f0f0;
+        font-size: 14px;
+    }
+
+    input:focus, textarea:focus, select:focus {
+        outline: none;
+        border-color: #0066cc;
+    }
+
+    select {
+        appearance: none;
+    }
+
+    textarea {
+        resize: vertical;
+    }
+
+    .error {
+        display: none;
+        font-size: 12px;
+        color: #ff4d4d;
+        margin-top: 5px;
+    }
+
+    button[type="submit"] {
+        width: 100%;
+        padding: 14px;
+        background-color: #0066cc;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        margin-top: 20px;
+    }
+
+    button[type="submit"]:hover {
+        background-color: #0055aa;
+    }
+
+    .form-actions {
+        text-align: center;
+    }
+
+    .patient-login {
+        margin-top: 15px;
+        font-size: 14px;
+    }
+
+    .patient-login a {    
+        color: #0066cc;
+        text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+        .container {
+            padding: 15px;
+            max-width: 100%;
+        }
+
+        h1 {
+            font-size: 20px;
+        }
+    }
+
+    .select-wrapper {
+    position: relative;
+}
+
+.select-wrapper select {
+    appearance: none;
+    background-color: #f0f0f0;
+    padding-right: 30px;
+}
+
+.dropdown-arrow {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    font-size: 14px;
+    color: #333;
+}
